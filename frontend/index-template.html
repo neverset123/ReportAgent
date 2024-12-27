@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Story by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+		<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+	</head>
+	<body class="is-preload">
+			<header class="header">
+				<a href="#" class="logo">Research Trends</a>
+			</header>
+		<!-- Wrapper -->
+			<div id="wrapper" class="divided">
+				<!-- Five -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Gallery</h2>
+							<p>Welcome to our curated gallery of groundbreaking research, exploring the latest in science, technology, and academia. Here, we showcase a selection of articles from the preprint server arXiv, a rich repository of scientific knowledge spanning a wide range of disciplines including machine learning and more.</p>
+						</div>
+
+						<!-- Gallery -->
+							<div class="gallery style2 medium lightbox onscroll-fade-in owl-carousel clients-carousel">
+								<article>
+									<a href="images/fulls/01.jpg" class="image">
+										<img src="images/thumbs/01.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Title</h3>
+										<p>Summary</p>
+										<ul class="actions fixed">
+											<li><span href="#topic1" class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+								<article>
+									<a href="images/fulls/02.jpg" class="image">
+										<img src="images/thumbs/02.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Title</h3>
+										<p>Summary</p>
+										<ul class="actions fixed">
+											<li><span href="#topic2" class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+								<article>
+									<a href="images/fulls/03.jpg" class="image">
+										<img src="images/thumbs/03.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Title</h3>
+										<p>Summary</p>
+										<ul class="actions fixed">
+											<li><span href="#topic3" class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+								<article>
+									<a href="images/fulls/04.jpg" class="image">
+										<img src="images/thumbs/04.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Title</h3>
+										<p>Summary</p>
+										<ul class="actions fixed">
+											<li><span href="#topic4" class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+								<article>
+									<a href="images/fulls/05.jpg" class="image">
+										<img src="images/thumbs/04.jpg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Title</h3>
+										<p>Summary</p>
+										<ul class="actions fixed">
+											<li><span href="#topic5" class="button small">Details</span></li>
+										</ul>
+									</div>
+								</article>
+							</div>
+					</section>
+					<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+					<script src="lib/lightbox/js/lightbox.min.js"></script>
+					
+				<!-- Six -->
+					<section class="topics wrapper style1 align-center">
+						<div id="topic1" class="inner">
+							<h2>First Topic</h2>
+							<div class="items style1 medium onscroll-fade-in">
+								<section>
+									<div x-data="{open: false}">
+										<span class="icon style2 major fa-gem"></span>
+										<h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">One</h3>
+										<div x-show="open" x-collapse.duration.500ms class="text-sm text-gray-500 pt-2">
+											<p>Abstract</p>
+											<p class="pb-2 pt-2 text-center">
+												<a class="underline decoration-2 text-green-600 text-md pt-2" href='url' target="_blank">
+													full article
+												</a>
+											</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<div x-data="{open: false}">
+										<span class="icon solid style2 major fa-save"></span>
+										<h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Two</h3>
+										<div x-show="open" x-collapse.duration.500ms class="text-sm text-gray-500 pt-2">
+											<p>Abstract</p>
+											<p class="pb-2 pt-2 text-center">
+												<a class="underline decoration-2 text-green-600 text-md pt-2" href='url' target="_blank">
+													full article
+												</a>
+											</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<div x-data="{open: false}">
+										<span class="icon solid style2 major fa-chart-bar"></span>
+										<h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Three</h3>
+										<div x-show="open" x-collapse.duration.500ms class="text-sm text-gray-500 pt-2">
+											<p>Abstract</p>
+											<p class="pb-2 pt-2 text-center">
+												<a class="underline decoration-2 text-green-600 text-md pt-2" href='url' target="_blank">
+													full article
+												</a>
+											</p>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+						<div id="topic2" class="inner">
+							<h2>Second Topic</h2>
+							<div class="items style1 medium onscroll-fade-in">
+								<section>
+									<div x-data="{open: false}">
+										<span class="icon style2 major fa-gem"></span>
+										<h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">One</h3>
+										<div x-show="open" x-collapse.duration.500ms class="text-sm text-gray-500 pt-2">
+											<p>Abstract</p>
+											<p class="pb-2 pt-2 text-center">
+												<a class="underline decoration-2 text-green-600 text-md pt-2" href='url' target="_blank">
+													full article
+												</a>
+											</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<div x-data="{open: false}">
+										<span class="icon solid style2 major fa-save"></span>
+										<h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Two</h3>
+										<div x-show="open" x-collapse.duration.500ms class="text-sm text-gray-500 pt-2">
+											<p>Abstract</p>
+											<p class="pb-2 pt-2 text-center">
+												<a class="underline decoration-2 text-green-600 text-md pt-2" href='url' target="_blank">
+													full article
+												</a>
+											</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<div x-data="{open: false}">
+										<span class="icon solid style2 major fa-chart-bar"></span>
+										<h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Three</h3>
+										<div x-show="open" x-collapse.duration.500ms class="text-sm text-gray-500 pt-2">
+											<p>Abstract</p>
+											<p class="pb-2 pt-2 text-center">
+												<a class="underline decoration-2 text-green-600 text-md pt-2" href='url' target="_blank">
+													full article
+												</a>
+											</p>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer class="wrapper style1 align-center">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+								<li><a href="#" class="icon style2 fa-envelope"><span class="label">Email</span></a></li>
+							</ul>
+							<p>&copy; Copyrights: <a href="https://aibricks.tech">aibricks.tech</a>.</p>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
