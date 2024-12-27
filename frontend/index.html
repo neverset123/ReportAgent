@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Story by HTML5 UP</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport"/>
+<link href="assets/css/main.css" rel="stylesheet"/>
+<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet"/>
+<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet"/>
+<noscript><link href="assets/css/noscript.css" rel="stylesheet"/></noscript>
+<script src="https://cdn.tailwindcss.com"></script>
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" rel="stylesheet"/>
+<script crossorigin="anonymous" defer="" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="is-preload">
+<header class="header">
+<a class="logo" href="#">Research Trends</a>
+</header>
+<!-- Wrapper -->
+<div class="divided" id="wrapper">
+<!-- Five -->
+<section class="wrapper style1 align-center">
+<div class="inner">
+<h2>Gallery</h2>
+<p>Welcome to our curated gallery of groundbreaking research, exploring the latest in science, technology, and academia. Here, we showcase a selection of articles from the preprint server arXiv, a rich repository of scientific knowledge spanning a wide range of disciplines including machine learning and more.</p>
+</div>
+<!-- Gallery -->
+<div class="gallery style2 medium lightbox onscroll-fade-in owl-carousel clients-carousel"><article><a class="image" href="images/fulls/{{str(i+1).zfill(2)}}.jpg"><img alt="RAG" src="images/thumbs/01.jpg"/></a><div class="caption"><h3>RAG</h3><p>RAG (Retrieval-Augmented Generation) is a machine learning approach that combines information retrieval from external sources with generative models to improve the accuracy and relevance of responses.</p><ul class="actions fixed"><li><span class="button small">Details</span></li></ul></div></article><article><a class="image" href="images/fulls/{{str(i+1).zfill(2)}}.jpg"><img alt="LLM" src="images/thumbs/02.jpg"/></a><div class="caption"><h3>LLM</h3><p>A Large Language Model (LLM) is an AI model trained on vast amounts of text data to understand, generate, and manipulate human language with high proficiency.</p><ul class="actions fixed"><li><span class="button small">Details</span></li></ul></div></article><article><a class="image" href="images/fulls/{{str(i+1).zfill(2)}}.jpg"><img alt="Autonomous Driving" src="images/thumbs/03.jpg"/></a><div class="caption"><h3>Autonomous Driving</h3><p>Scene understanding in autonomous driving involves interpreting and analyzing the environment around a vehicle using sensors and AI to make real-time decisions for safe navigation.</p><ul class="actions fixed"><li><span class="button small">Details</span></li></ul></div></article><article><a class="image" href="images/fulls/{{str(i+1).zfill(2)}}.jpg"><img alt="Data Mining" src="images/thumbs/04.jpg"/></a><div class="caption"><h3>Data Mining</h3><p>Data mining in automotive refers to the process of analyzing large datasets from vehicles and sensors to uncover patterns, trends, and insights that can improve performance, safety, and customer experience.</p><ul class="actions fixed"><li><span class="button small">Details</span></li></ul></div></article><article><a class="image" href="images/fulls/{{str(i+1).zfill(2)}}.jpg"><img alt="CLIP" src="images/thumbs/05.jpg"/></a><div class="caption"><h3>CLIP</h3><p>CLIP (Contrastive Language-Image Pretraining) is a model that enables multimodal search by learning to connect images and text, allowing for more accurate and flexible search across visual and textual data.</p><ul class="actions fixed"><li><span class="button small">Details</span></li></ul></div></article></div>
+</section>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
+<!-- Six -->
+<section class="topics wrapper style1 align-center"><div class="inner"><h2>RAG</h2><div class="items style1 medium onscroll-fade-in"><section><div x-data="{open: false}"><span class="icon style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Dynamic Multi-Agent Orchestration and Retrieval for Multi-Source Question-Answer Systems using Large Language Models</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>We propose a methodology that combines several advanced techniques in Large
+Language Model (LLM) retrieval to support the development of robust,
+multi-source question-answer systems. This methodology is designed to integrate
+information from diverse data sources, including unstructured documents (PDFs)
+and structured databases, through a coordinated multi-agent orchestration and
+dynamic retrieval approach. Our methodology leverages specialized agents-such
+as SQL agents, Retrieval-Augmented Generation (RAG) agents, and router agents -
+that dynamically select the most appropriate retrieval strategy based on the
+nature of each query. To further improve accuracy and contextual relevance, we
+employ dynamic prompt engineering, which adapts in real time to query-specific
+contexts. The methodology's effectiveness is demonstrated within the domain of
+Contract Management, where complex queries often require seamless interaction
+between unstructured and structured data. Our results indicate that this
+approach enhances response accuracy and relevance, offering a versatile and
+scalable framework for developing question-answer systems that can operate
+across various domains and data sources.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17964v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Contrato360 2.0: A Document and Database-Driven Question-Answer System using Large Language Models and Agents</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>We present a question-and-answer (Q\&amp;A) application designed to support the
+contract management process by leveraging combined information from contract
+documents (PDFs) and data retrieved from contract management systems
+(database). This data is processed by a large language model (LLM) to provide
+precise and relevant answers. The accuracy of these responses is further
+enhanced through the use of Retrieval-Augmented Generation (RAG), text-to-SQL
+techniques, and agents that dynamically orchestrate the workflow. These
+techniques eliminate the need to retrain the language model. Additionally, we
+employed Prompt Engineering to fine-tune the focus of responses. Our findings
+demonstrate that this multi-agent orchestration and combination of techniques
+significantly improve the relevance and accuracy of the answers, offering a
+promising direction for future information systems.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17942v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">RAGONITE: Iterative Retrieval on Induced Databases and Verbalized RDF for Conversational QA over KGs with RAG</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Conversational question answering (ConvQA) is a convenient means of searching
+over RDF knowledge graphs (KGs), where a prevalent approach is to translate
+natural language questions to SPARQL queries. However, SPARQL has certain
+shortcomings: (i) it is brittle for complex intents and conversational
+questions, and (ii) it is not suitable for more abstract needs. Instead, we
+propose a novel two-pronged system where we fuse: (i) SQL-query results over a
+database automatically derived from the KG, and (ii) text-search results over
+verbalizations of KG facts. Our pipeline supports iterative retrieval: when the
+results of any branch are found to be unsatisfactory, the system can
+automatically opt for further rounds. We put everything together in a retrieval
+augmented generation (RAG) setup, where an LLM generates a coherent response
+from accumulated search results. We demonstrate the superiority of our proposed
+system over several baselines on a knowledge graph of BMW automobiles.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17690v2" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">A Survey of Query Optimization in Large Language Models</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>\textit{Query Optimization} (QO) refers to techniques aimed at enhancing the
+efficiency and quality of Large Language Models (LLMs) in understanding and
+answering queries, especially complex ones in scenarios like
+Retrieval-Augmented Generation (RAG). Specifically, RAG mitigates the
+limitations of LLMs by dynamically retrieving and leveraging up-to-date
+relevant information, which provides a cost-effective solution to the challenge
+of LLMs producing plausible but potentially inaccurate responses. Recently, as
+RAG evolves and incorporates multiple components that influence its
+performance, QO has emerged as a critical element, playing a pivotal role in
+determining the effectiveness of RAG's retrieval stage in accurately sourcing
+the necessary multiple pieces of evidence to answer queries correctly. In this
+paper, we trace the evolution of QO techniques by summarizing and analyzing
+significant studies. Through an organized framework and categorization, we aim
+to consolidate existing QO techniques in RAG, elucidate their technological
+foundations, and highlight their potential to enhance the versatility and
+applications of LLMs.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17558v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Efficient fine-tuning methodology of text embedding models for information retrieval: contrastive learning penalty (clp)</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Text embedding models play a crucial role in natural language processing,
+particularly in information retrieval, and their importance is further
+highlighted with the recent utilization of RAG (Retrieval- Augmented
+Generation). This study presents an efficient fine-tuning methodology
+encompassing data selection, loss function, and model architecture to enhance
+the information retrieval performance of pre-trained text embedding models. In
+particular, this study proposes a novel Contrastive Learning Penalty function
+that overcomes the limitations of existing Contrastive Learning. The proposed
+methodology achieves significant performance improvements over existing methods
+in document retrieval tasks. This study is expected to contribute to improving
+the performance of information retrieval systems through fine-tuning of text
+embedding models. The code for this study can be found at
+https://github.com/CreaLabs/Enhanced-BGE-M3-with-CLP-and-MoE, and the
+best-performing model can be found at https://huggingface.co/CreaLabs.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17364v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">GeAR: Graph-enhanced Agent for Retrieval-augmented Generation</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Retrieval-augmented generation systems rely on effective document retrieval
+capabilities. By design, conventional sparse or dense retrievers face
+challenges in multi-hop retrieval scenarios. In this paper, we present GeAR,
+which advances RAG performance through two key innovations: (i) graph
+expansion, which enhances any conventional base retriever, such as BM25, and
+(ii) an agent framework that incorporates graph expansion. Our evaluation
+demonstrates GeAR's superior retrieval performance on three multi-hop question
+answering datasets. Additionally, our system achieves state-of-the-art results
+with improvements exceeding 10% on the challenging MuSiQue dataset, while
+requiring fewer tokens and iterations compared to other multi-step retrieval
+systems.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18431v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Pirates of the RAG: Adaptively Attacking LLMs to Leak Knowledge Bases</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>The growing ubiquity of Retrieval-Augmented Generation (RAG) systems in
+several real-world services triggers severe concerns about their security. A
+RAG system improves the generative capabilities of a Large Language Models
+(LLM) by a retrieval mechanism which operates on a private knowledge base,
+whose unintended exposure could lead to severe consequences, including breaches
+of private and sensitive information. This paper presents a black-box attack to
+force a RAG system to leak its private knowledge base which, differently from
+existing approaches, is adaptive and automatic. A relevance-based mechanism and
+an attacker-side open-source LLM favor the generation of effective queries to
+leak most of the (hidden) knowledge base. Extensive experimentation proves the
+quality of the proposed algorithm in different RAG pipelines and domains,
+comparing to very recent related approaches, which turn out to be either not
+fully black-box, not adaptive, or not based on open-source models. The findings
+from our study remark the urgent need for more robust privacy safeguards in the
+design and deployment of RAG systems.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18295v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">EvoPat: A Multi-LLM-based Patents Summarization and Analysis Agent</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>The rapid growth of scientific techniques and knowledge is reflected in the
+exponential increase in new patents filed annually. While these patents drive
+innovation, they also present significant burden for researchers and engineers,
+especially newcomers. To avoid the tedious work of navigating a vast and
+complex landscape to identify trends and breakthroughs, researchers urgently
+need efficient tools to summarize, evaluate, and contextualize patents,
+revealing their innovative contributions and underlying scientific
+principles.To address this need, we present EvoPat, a multi-LLM-based patent
+agent designed to assist users in analyzing patents through Retrieval-Augmented
+Generation (RAG) and advanced search strategies. EvoPat leverages multiple
+Large Language Models (LLMs), each performing specialized roles such as
+planning, identifying innovations, and conducting comparative evaluations. The
+system integrates data from local databases, including patents, literature,
+product catalogous, and company repositories, and online searches to provide
+up-to-date insights. The ability to collect information not included in
+original database automatically is also implemented. Through extensive testing
+in the natural language processing (NLP) domain, we demonstrate that EvoPat
+outperforms GPT-4 in tasks such as patent summarization, comparative analysis,
+and technical evaluation. EvoPat represents a significant step toward creating
+AI-powered tools that empower researchers and engineers to efficiently navigate
+the complexities of the patent landscape.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18100v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Molly: Making Large Language Model Agents Solve Python Problem More Logically</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Applying large language models (LLMs) as teaching assists has attracted much
+attention as an integral part of intelligent education, particularly in
+computing courses. To reduce the gap between the LLMs and the computer
+programming education expert, fine-tuning and retrieval augmented generation
+(RAG) are the two mainstream methods in existing researches. However,
+fine-tuning for specific tasks is resource-intensive and may diminish the
+model`s generalization capabilities. RAG can perform well on reducing the
+illusion of LLMs, but the generation of irrelevant factual content during
+reasoning can cause significant confusion for learners. To address these
+problems, we introduce the Molly agent, focusing on solving the proposed
+problem encountered by learners when learning Python programming language. Our
+agent automatically parse the learners' questioning intent through a
+scenario-based interaction, enabling precise retrieval of relevant documents
+from the constructed knowledge base. At generation stage, the agent reflect on
+the generated responses to ensure that they not only align with factual content
+but also effectively answer the user's queries. Extensive experimentation on a
+constructed Chinese Python QA dataset shows the effectiveness of the Molly
+agent, indicating an enhancement in its performance for providing useful
+responses to Python questions.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18093v1" target="_blank">full article</a></p></div></div></section></div></div><div class="inner"><h2>LLM</h2><div class="items style1 medium onscroll-fade-in"><section><div x-data="{open: false}"><span class="icon style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Dynamic Multi-Agent Orchestration and Retrieval for Multi-Source Question-Answer Systems using Large Language Models</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>We propose a methodology that combines several advanced techniques in Large
+Language Model (LLM) retrieval to support the development of robust,
+multi-source question-answer systems. This methodology is designed to integrate
+information from diverse data sources, including unstructured documents (PDFs)
+and structured databases, through a coordinated multi-agent orchestration and
+dynamic retrieval approach. Our methodology leverages specialized agents-such
+as SQL agents, Retrieval-Augmented Generation (RAG) agents, and router agents -
+that dynamically select the most appropriate retrieval strategy based on the
+nature of each query. To further improve accuracy and contextual relevance, we
+employ dynamic prompt engineering, which adapts in real time to query-specific
+contexts. The methodology's effectiveness is demonstrated within the domain of
+Contract Management, where complex queries often require seamless interaction
+between unstructured and structured data. Our results indicate that this
+approach enhances response accuracy and relevance, offering a versatile and
+scalable framework for developing question-answer systems that can operate
+across various domains and data sources.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17964v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Contrato360 2.0: A Document and Database-Driven Question-Answer System using Large Language Models and Agents</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>We present a question-and-answer (Q\&amp;A) application designed to support the
+contract management process by leveraging combined information from contract
+documents (PDFs) and data retrieved from contract management systems
+(database). This data is processed by a large language model (LLM) to provide
+precise and relevant answers. The accuracy of these responses is further
+enhanced through the use of Retrieval-Augmented Generation (RAG), text-to-SQL
+techniques, and agents that dynamically orchestrate the workflow. These
+techniques eliminate the need to retrain the language model. Additionally, we
+employed Prompt Engineering to fine-tune the focus of responses. Our findings
+demonstrate that this multi-agent orchestration and combination of techniques
+significantly improve the relevance and accuracy of the answers, offering a
+promising direction for future information systems.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17942v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">RAGONITE: Iterative Retrieval on Induced Databases and Verbalized RDF for Conversational QA over KGs with RAG</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Conversational question answering (ConvQA) is a convenient means of searching
+over RDF knowledge graphs (KGs), where a prevalent approach is to translate
+natural language questions to SPARQL queries. However, SPARQL has certain
+shortcomings: (i) it is brittle for complex intents and conversational
+questions, and (ii) it is not suitable for more abstract needs. Instead, we
+propose a novel two-pronged system where we fuse: (i) SQL-query results over a
+database automatically derived from the KG, and (ii) text-search results over
+verbalizations of KG facts. Our pipeline supports iterative retrieval: when the
+results of any branch are found to be unsatisfactory, the system can
+automatically opt for further rounds. We put everything together in a retrieval
+augmented generation (RAG) setup, where an LLM generates a coherent response
+from accumulated search results. We demonstrate the superiority of our proposed
+system over several baselines on a knowledge graph of BMW automobiles.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17690v2" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">A Survey of Query Optimization in Large Language Models</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>\textit{Query Optimization} (QO) refers to techniques aimed at enhancing the
+efficiency and quality of Large Language Models (LLMs) in understanding and
+answering queries, especially complex ones in scenarios like
+Retrieval-Augmented Generation (RAG). Specifically, RAG mitigates the
+limitations of LLMs by dynamically retrieving and leveraging up-to-date
+relevant information, which provides a cost-effective solution to the challenge
+of LLMs producing plausible but potentially inaccurate responses. Recently, as
+RAG evolves and incorporates multiple components that influence its
+performance, QO has emerged as a critical element, playing a pivotal role in
+determining the effectiveness of RAG's retrieval stage in accurately sourcing
+the necessary multiple pieces of evidence to answer queries correctly. In this
+paper, we trace the evolution of QO techniques by summarizing and analyzing
+significant studies. Through an organized framework and categorization, we aim
+to consolidate existing QO techniques in RAG, elucidate their technological
+foundations, and highlight their potential to enhance the versatility and
+applications of LLMs.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17558v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Efficient fine-tuning methodology of text embedding models for information retrieval: contrastive learning penalty (clp)</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Text embedding models play a crucial role in natural language processing,
+particularly in information retrieval, and their importance is further
+highlighted with the recent utilization of RAG (Retrieval- Augmented
+Generation). This study presents an efficient fine-tuning methodology
+encompassing data selection, loss function, and model architecture to enhance
+the information retrieval performance of pre-trained text embedding models. In
+particular, this study proposes a novel Contrastive Learning Penalty function
+that overcomes the limitations of existing Contrastive Learning. The proposed
+methodology achieves significant performance improvements over existing methods
+in document retrieval tasks. This study is expected to contribute to improving
+the performance of information retrieval systems through fine-tuning of text
+embedding models. The code for this study can be found at
+https://github.com/CreaLabs/Enhanced-BGE-M3-with-CLP-and-MoE, and the
+best-performing model can be found at https://huggingface.co/CreaLabs.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.17364v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Pirates of the RAG: Adaptively Attacking LLMs to Leak Knowledge Bases</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>The growing ubiquity of Retrieval-Augmented Generation (RAG) systems in
+several real-world services triggers severe concerns about their security. A
+RAG system improves the generative capabilities of a Large Language Models
+(LLM) by a retrieval mechanism which operates on a private knowledge base,
+whose unintended exposure could lead to severe consequences, including breaches
+of private and sensitive information. This paper presents a black-box attack to
+force a RAG system to leak its private knowledge base which, differently from
+existing approaches, is adaptive and automatic. A relevance-based mechanism and
+an attacker-side open-source LLM favor the generation of effective queries to
+leak most of the (hidden) knowledge base. Extensive experimentation proves the
+quality of the proposed algorithm in different RAG pipelines and domains,
+comparing to very recent related approaches, which turn out to be either not
+fully black-box, not adaptive, or not based on open-source models. The findings
+from our study remark the urgent need for more robust privacy safeguards in the
+design and deployment of RAG systems.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18295v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">EvoPat: A Multi-LLM-based Patents Summarization and Analysis Agent</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>The rapid growth of scientific techniques and knowledge is reflected in the
+exponential increase in new patents filed annually. While these patents drive
+innovation, they also present significant burden for researchers and engineers,
+especially newcomers. To avoid the tedious work of navigating a vast and
+complex landscape to identify trends and breakthroughs, researchers urgently
+need efficient tools to summarize, evaluate, and contextualize patents,
+revealing their innovative contributions and underlying scientific
+principles.To address this need, we present EvoPat, a multi-LLM-based patent
+agent designed to assist users in analyzing patents through Retrieval-Augmented
+Generation (RAG) and advanced search strategies. EvoPat leverages multiple
+Large Language Models (LLMs), each performing specialized roles such as
+planning, identifying innovations, and conducting comparative evaluations. The
+system integrates data from local databases, including patents, literature,
+product catalogous, and company repositories, and online searches to provide
+up-to-date insights. The ability to collect information not included in
+original database automatically is also implemented. Through extensive testing
+in the natural language processing (NLP) domain, we demonstrate that EvoPat
+outperforms GPT-4 in tasks such as patent summarization, comparative analysis,
+and technical evaluation. EvoPat represents a significant step toward creating
+AI-powered tools that empower researchers and engineers to efficiently navigate
+the complexities of the patent landscape.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18100v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Molly: Making Large Language Model Agents Solve Python Problem More Logically</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Applying large language models (LLMs) as teaching assists has attracted much
+attention as an integral part of intelligent education, particularly in
+computing courses. To reduce the gap between the LLMs and the computer
+programming education expert, fine-tuning and retrieval augmented generation
+(RAG) are the two mainstream methods in existing researches. However,
+fine-tuning for specific tasks is resource-intensive and may diminish the
+model`s generalization capabilities. RAG can perform well on reducing the
+illusion of LLMs, but the generation of irrelevant factual content during
+reasoning can cause significant confusion for learners. To address these
+problems, we introduce the Molly agent, focusing on solving the proposed
+problem encountered by learners when learning Python programming language. Our
+agent automatically parse the learners' questioning intent through a
+scenario-based interaction, enabling precise retrieval of relevant documents
+from the constructed knowledge base. At generation stage, the agent reflect on
+the generated responses to ensure that they not only align with factual content
+but also effectively answer the user's queries. Extensive experimentation on a
+constructed Chinese Python QA dataset shows the effectiveness of the Molly
+agent, indicating an enhancement in its performance for providing useful
+responses to Python questions.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18093v1" target="_blank">full article</a></p></div></div></section><section><div x-data="{open: false}"><span class="icon solid style2 major fa-gem"></span><h3 @click="open = ! open" class="hover:underline cursor-pointer decoration-2 decoration-green-600 text-gray-800 text-sm">Improving Factuality with Explicit Working Memory</h3><div class="text-sm text-gray-500 pt-2" x-collapse.duration.500ms="" x-show="open"><p>Large language models can generate factually inaccurate content, a problem
+known as hallucination. Recent works have built upon retrieved-augmented
+generation to improve factuality through iterative prompting but these methods
+are limited by the traditional RAG design. To address these challenges, we
+introduce EWE (Explicit Working Memory), a novel approach that enhances
+factuality in long-form text generation by integrating a working memory that
+receives real-time feedback from external resources. The memory is refreshed
+based on online fact-checking and retrieval feedback, allowing EWE to rectify
+false claims during the generation process and ensure more accurate and
+reliable outputs. Our experiments demonstrate that Ewe outperforms strong
+baselines on four fact-seeking long-form generation datasets, increasing the
+factuality metric, VeriScore, by 2 to 10 points absolute without sacrificing
+the helpfulness of the responses. Further analysis reveals that the design of
+rules for memory updates, configurations of memory units, and the quality of
+the retrieval datastore are crucial factors for influencing model performance.</p><p class="pb-2 pt-2 text-center"><a class="underline decoration-2 text-green-600 text-md pt-2" href="http://arxiv.org/abs/2412.18069v1" target="_blank">full article</a></p></div></div></section></div></div></section>
+<!-- Footer -->
+<footer class="wrapper style1 align-center">
+<div class="inner">
+<ul class="icons">
+<li><a class="icon brands style2 fa-twitter" href="#"><span class="label">Twitter</span></a></li>
+<li><a class="icon brands style2 fa-facebook-f" href="#"><span class="label">Facebook</span></a></li>
+<li><a class="icon brands style2 fa-instagram" href="#"><span class="label">Instagram</span></a></li>
+<li><a class="icon brands style2 fa-linkedin-in" href="#"><span class="label">LinkedIn</span></a></li>
+<li><a class="icon style2 fa-envelope" href="#"><span class="label">Email</span></a></li>
+</ul>
+<p>© Copyrights: <a href="https://aibricks.tech">aibricks.tech</a>.</p>
+</div>
+</footer>
+</div>
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
