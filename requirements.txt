@@ -11,3 +11,4 @@ requests==2.28.2
 jmespath
 beautifulsoup4
 lxml
+SQLAlchemy
