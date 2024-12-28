@@ -87,5 +87,6 @@ def main(db_path, topics):
 # Example usage
 if __name__ == '__main__':
     db_path = 'arxiv_articles.db'
-    topics = config.get_config_names()
+    # topics = config.get_config_names()
+    topics = ["LLM", "RAG"]
     main(db_path, topics)

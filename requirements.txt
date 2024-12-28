@@ -1,0 +1,13 @@
+arxiv
+pydantic
+torch  --index-url https://download.pytorch.org/whl/cu118
+torchvision --index-url https://download.pytorch.org/whl/cu118
+torchaudio --index-url https://download.pytorch.org/whl/cu118
+transformers
+pandas
+embetter
+setfit
+requests==2.28.2
+jmespath
+beautifulsoup4
+lxml
