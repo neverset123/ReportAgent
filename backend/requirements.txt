@@ -1,0 +1,10 @@
+langchain
+langchain-community
+langchain-experimental
+langchain-core
+python-decouple
+openai
+flask
+google-search-results
+numexpr
+flask_cors
