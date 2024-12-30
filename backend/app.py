@@ -6,7 +6,10 @@ from langchain.agents import create_sql_agent
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 from langchain.sql_database import SQLDatabase
 from langchain.chat_models import AzureChatOpenAI
+from langchain.chains.conversation.memory import ConversationBufferMemory
+from langchain_core.prompts import MessagesPlaceholder
 from flask_cors import CORS
+from typing import Tuple, Dict
 import os
 
 app = Flask(__name__)
@@ -47,8 +50,17 @@ tools = [
     )
 ]
 
+def setup_memory() -> Tuple[Dict, ConversationBufferMemory]:
+    agent_kwargs = {
+        "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")],
+    }
+    memory = ConversationBufferMemory(memory_key="memory", return_messages=True)
+
+    return agent_kwargs, memory
+
+agent_kwargs, memory = setup_memory()
 agent = initialize_agent(
-    tools=tools, llm=llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True)
+    tools=tools, llm=llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=True, agent_kwargs=agent_kwargs, memory=memory)
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -57,7 +69,6 @@ def chat():
         return jsonify({'error': 'No question provided'}), 400
 
     response = agent.run(user_question)
-
     return jsonify({'answer': response})
 
 if __name__ == '__main__':
