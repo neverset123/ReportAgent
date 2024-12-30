@@ -212,7 +212,7 @@
 							<p>AI: Hi! How can I help you today?</p>
 						</div>
 						<div id="chatbot-input">
-							<input type="text" id="chatbot-message" placeholder="Type a message..." />
+							<input type="text" id="chatbot-message" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') sendMessage()"/>
 							<button onclick="sendMessage()">Send</button>
 						</div>
 					</div>
@@ -257,40 +257,40 @@
 						chatbotBody.scrollTop = chatbotBody.scrollHeight;
 
 						try {
-							// const response = await fetch('http://localhost:3000/api/chat', {
-							// 	method: 'POST',
-							// 	headers: {
-							// 		'Content-Type': 'application/json',
-							// 		'Access-Control-Allow-Origin': 'http://localhost:3000'
-							// 	},
-							// 	body: JSON.stringify({ message: message })
-							// });
-							// Simulate a fetch call with a dummy response
-							const response = await new Promise((resolve) => {
-								setTimeout(() => {
-									resolve({
-										ok: true,
-										json: async () => ({ message: 'This is a dummy response from AI. [feature intergrating db with azure openai is coming soon.]' }),
-										body: {
-											getReader: () => {
-												const text = 'This is a dummy response from AI. [feature intergrating db with azure openai is coming soon.]';
-												let index = 0;
-												return {
-													read: async () => {
-														if (index < text.length) {
-															const value = new TextEncoder().encode(text.slice(index, index + 1));
-															index++;
-															return { done: false, value };
-														} else {
-															return { done: true, value: new Uint8Array() };
-														}
-													}
-												};
-											}
-										}
-									});
-								}, 1000);
+							const response = await fetch('https://reportbot-hmg0c6gzccdgcsb8.germanywestcentral-01.azurewebsites.net//api/chat', {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+									'Access-Control-Allow-Origin': 'https://reportbot-hmg0c6gzccdgcsb8.germanywestcentral-01.azurewebsites.net'
+								},
+								body: JSON.stringify({ message: message })
 							});
+							// Simulate a fetch call with a dummy response
+							// const response = await new Promise((resolve) => {
+							// 	setTimeout(() => {
+							// 		resolve({
+							// 			ok: true,
+							// 			json: async () => ({ message: 'This is a dummy response from AI. [feature intergrating db with azure openai is coming soon.]' }),
+							// 			body: {
+							// 				getReader: () => {
+							// 					const text = 'This is a dummy response from AI. [feature intergrating db with azure openai is coming soon.]';
+							// 					let index = 0;
+							// 					return {
+							// 						read: async () => {
+							// 							if (index < text.length) {
+							// 								const value = new TextEncoder().encode(text.slice(index, index + 1));
+							// 								index++;
+							// 								return { done: false, value };
+							// 							} else {
+							// 								return { done: true, value: new Uint8Array() };
+							// 							}
+							// 						}
+							// 					};
+							// 				}
+							// 			}
+							// 		});
+							// 	}, 1000);
+							// });
 
 							if (response.ok) {
 								const reader = response.body.getReader();
