@@ -252,12 +252,12 @@
 
 						// Simulate AI response
 						var aiResponse = document.createElement('p');
-						aiResponse.textContent = 'AI: AI is typing...';
+						aiResponse.textContent = 'Agent: AI is typing...';
 						chatbotBody.appendChild(aiResponse);
 						chatbotBody.scrollTop = chatbotBody.scrollHeight;
 
 						try {
-							const response = await fetch('https://reportbot-hmg0c6gzccdgcsb8.germanywestcentral-01.azurewebsites.net//api/chat', {
+							const response = await fetch('https://reportbot-hmg0c6gzccdgcsb8.germanywestcentral-01.azurewebsites.net/api/chat', {
 								method: 'POST',
 								headers: {
 									'Content-Type': 'application/json',
@@ -293,17 +293,8 @@
 							// });
 
 							if (response.ok) {
-								const reader = response.body.getReader();
-								const decoder = new TextDecoder();
-								let aiMessage = '';
-
-								while (true) {
-									const { done, value } = await reader.read();
-									if (done) break;
-									aiMessage += decoder.decode(value, { stream: true });
-									aiResponse.textContent = "AI: "+aiMessage;
-									chatbotBody.scrollTop = chatbotBody.scrollHeight;
-								}
+								const data = await response.json();
+								aiResponse.textContent = "Agent: " + data.answer;
 							} else {
 								aiResponse.textContent = 'Error: Unable to get AI response.';
 							}

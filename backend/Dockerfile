@@ -5,13 +5,14 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copy the requirements file into the container
-COPY requirements.txt .
+COPY backend/requirements.txt .
 
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
-COPY . .
+COPY backend/app.py .
+COPY arxiv_articles.db .
 
 # Expose the port the app runs on
 EXPOSE 5000

@@ -8678,7 +8678,7 @@ input, select, textarea {
         }
         #chatbot-body {
             padding: 10px;
-            height: 200px;
+            height: 500px;
             overflow-y: auto;
         }
         #chatbot-input {
