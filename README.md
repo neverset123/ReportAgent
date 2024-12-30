@@ -7,4 +7,4 @@ The integration of GPT empowers the Report Agent to handle interactive queries e
 
 ### Service
 The frontend can be accessed with [Report Agent](https://proud-cliff-016ae6203.4.azurestaticapps.net).
-The chatbot can be accessed only with priviledged user for security reason.
+The chatbot can be accessed only by priviledged user for security reason.
