@@ -8685,6 +8685,12 @@ input, select, textarea {
             display: flex;
             border-top: 1px solid #ccc;
         }
+		#chatbot-message {
+			flex: 1;
+			padding: 10px;
+			border: none;
+			border-bottom-left-radius: 10px;
+		}
         #chatbot-input input {
             flex: 1;
             padding: 10px;
@@ -8712,3 +8718,19 @@ input, select, textarea {
             cursor: pointer;
             z-index: 1001;
         }
+		.user-message {
+			background: #e1ffc7;
+			padding: 10px;
+			border-radius: 10px;
+			margin-bottom: 10px;
+			align-self: flex-end;
+			max-width: 80%;
+		}
+		.agent-message {
+			background: #f1f0f0;
+			padding: 10px;
+			border-radius: 10px;
+			margin-bottom: 10px;
+			align-self: flex-start;
+			max-width: 80%;
+		}

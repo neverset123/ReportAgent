@@ -209,7 +209,7 @@
 					<div id="chatbot">
 						<div id="chatbot-header">Chatbot</div>
 						<div id="chatbot-body">
-							<p>AI: Hi! How can I help you today?</p>
+							<p class="agent-message">Agent: Hi! How can I help you today?</p>
 						</div>
 						<div id="chatbot-input">
 							<input type="text" id="chatbot-message" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') sendMessage()"/>
@@ -246,6 +246,7 @@
 						var chatbotBody = document.getElementById('chatbot-body');
 						var userMessage = document.createElement('p');
 						userMessage.textContent = "User: "+message;
+						userMessage.className = 'user-message';
 						chatbotBody.appendChild(userMessage);
 						messageInput.value = '';
 						chatbotBody.scrollTop = chatbotBody.scrollHeight;
@@ -253,6 +254,7 @@
 						// Simulate AI response
 						var aiResponse = document.createElement('p');
 						aiResponse.textContent = 'Agent: AI is typing...';
+						aiResponse.className = 'agent-message';
 						chatbotBody.appendChild(aiResponse);
 						chatbotBody.scrollTop = chatbotBody.scrollHeight;
 
