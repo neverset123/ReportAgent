@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from langchain import LLMMathChain, SerpAPIWrapper, SQLDatabase
-from langchain_experimental.sql import SQLDatabaseChain
 from langchain.agents import initialize_agent, Tool
 from langchain.agents import AgentType
+from langchain.agents import create_sql_agent
+from langchain.agents.agent_toolkits import SQLDatabaseToolkit
+from langchain.sql_database import SQLDatabase
 from langchain.chat_models import AzureChatOpenAI
 from flask_cors import CORS
 import os
@@ -19,7 +21,13 @@ llm = AzureChatOpenAI(model=os.getenv("CHAT_MODEL"),
 search = SerpAPIWrapper()
 llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=True)
 db = SQLDatabase.from_uri("sqlite:///arxiv_articles.db")
-db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True)
+toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+db_chain = create_sql_agent(
+    llm=llm,
+    toolkit=toolkit,
+    verbose=True,
+    agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION
+)
 
 tools = [
     Tool(
