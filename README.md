@@ -5,3 +5,5 @@ The Report Agent offers comprehensive and customizable report generation capabil
 
 The integration of GPT empowers the Report Agent to handle interactive queries effectively, allows users to ask natural language questions about data and trends, provides detailed, contextual, and human-like responses for deeper insights.
 
+### Frontend
+the frontend can be accessed with [Report Agent](https://proud-cliff-016ae6203.4.azurestaticapps.net)
