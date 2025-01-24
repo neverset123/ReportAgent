@@ -14,7 +14,7 @@ def read_data_from_db(db_path, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute(f"SELECT created, title, abstract, url FROM articles where {conf['label']} = 1 order by created limit 9")
+    cursor.execute(f"SELECT created, title, abstract, url FROM articles where {conf['label']} = 1 order by created desc limit 9")
     rows = cursor.fetchall()
     papers = []
     for row in rows:
@@ -31,7 +31,7 @@ def read_data_from_db(db_path, topic):
 # Sample real data for the gallery
 confs = config.get_all_configs()
 gallery_data = [
-    {"title": conf["name"], "summary": conf["description"], "thumb": f"images/thumbs/{str(i+1).zfill(2)}.jpg", "full": "images/fulls/{{str(i+1).zfill(2)}}.jpg"} for i, conf in enumerate(confs)
+    {"title": conf["name"], "summary": conf["description"], "thumb": f"images/thumbs/{str(i+1).zfill(2)}.jpg", "full": f"images/fulls/{str(i+1).zfill(2)}.jpg"} for i, conf in enumerate(confs)
 ]
 
 # Nested dictionary of multiple topics data
