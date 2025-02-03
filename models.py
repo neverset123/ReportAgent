@@ -9,6 +9,7 @@ class Paper(Base):
     id = Column(Integer, primary_key=True)
     created = Column(String)
     title = Column(String)
+    author = Column(String)
     abstract = Column(String)
     sentences = Column(Text)
     url = Column(String)
@@ -17,6 +18,16 @@ class Paper(Base):
     ad = Column(Boolean)
     mining = Column(Boolean)
     clip = Column(Boolean)
+
+class Report(Base):
+    __tablename__ = 'report'
+    id = Column(Integer, primary_key=True)
+    created = Column(String)
+    problem = Column(Text)
+    approach = Column(Text)
+    model = Column(Text)
+    evaluation = Column(Text)
+    conclusion = Column(Text)
 
 DATABASE_URL = "sqlite:///arxiv_articles.db"
 engine = create_engine(DATABASE_URL)

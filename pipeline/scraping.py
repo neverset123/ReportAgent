@@ -7,6 +7,7 @@ from config import config
 class Paper(BaseModel):
     created: str
     title: str
+    author: str
     abstract: str
     sentences: List[str]
     url: str
@@ -32,6 +33,7 @@ def query_arxiv(topic):
         article = Paper(
             created=result.published.strftime('%Y-%m-%d'),
             title=result.title,
+            author=",".join([author.name for author in result.authors][:3]),
             abstract=result.summary,
             sentences=split_into_sentences(result.summary),
             url=result.entry_id
@@ -48,6 +50,7 @@ def save_to_db(articles, db_path):
             id INTEGER PRIMARY KEY,
             created TEXT,
             title TEXT,
+            author TEXT,
             abstract TEXT,
             sentences TEXT,
             url TEXT UNIQUE
@@ -58,9 +61,9 @@ def save_to_db(articles, db_path):
     for article in articles:
         try:
             cursor.execute('''
-                INSERT INTO articles (created, title, abstract, sentences, url)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (article.created, article.title, article.abstract, '\n'.join(article.sentences), article.url))
+                INSERT INTO articles (created, title, author, abstract, sentences, url)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (article.created, article.title, article.author, article.abstract, '\n'.join(article.sentences), article.url))
         except sqlite3.IntegrityError:
             print(f"Article with URL {article.url} already exists in the database.")
     conn.commit()
