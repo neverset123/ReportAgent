@@ -12,7 +12,8 @@ class Paper(Base):
     author = Column(String)
     abstract = Column(String)
     sentences = Column(Text)
-    url = Column(String)
+    url = Column(String, unique=True)
+    pdf_url = Column(String, unique=True)
     rag = Column(Boolean)
     llm = Column(Boolean)
     ad = Column(Boolean)
@@ -22,10 +23,10 @@ class Paper(Base):
 class Report(Base):
     __tablename__ = 'report'
     id = Column(Integer, primary_key=True)
-    created = Column(String)
     problem = Column(Text)
     approach = Column(Text)
     model = Column(Text)
+    dataset = Column(Text)
     evaluation = Column(Text)
     conclusion = Column(Text)
 
