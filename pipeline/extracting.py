@@ -88,7 +88,18 @@ def extract_metadata(urls):
             messages=[{"role": "user", "content": user_message}],
             context_variables={"url": ele.url}
         )
-        metadatas.append((ele.id, json.loads(response.messages[-1]["content"])))
+        try:
+            res_dict = json.loads(response.messages[-1]["content"])
+        except json.JSONDecodeError as e:
+            print(f"JSONDecodeError for paper {ele.id}: {e}")
+            res_dict = {}
+        except TypeError as e:
+            print(f"TypeError for paper {ele.id}: {e}")
+            res_dict = {}
+        except Exception as e:
+            print(f"Unexpected error for paper {ele.id}: {e}")
+            res_dict = {}
+        metadatas.append((ele.id, res_dict))
     return metadatas
 
 # Function to write predictions back to SQLite database
@@ -109,6 +120,8 @@ def save_metadata_to_db(db_path, metadatas):
     ''')
 
     for id, metadata in metadatas:
+        if not metadata:
+            continue
         try:
             cursor.execute('''
                 INSERT INTO report (id, problem, approach, model, dataset, evaluation, conclusion)
