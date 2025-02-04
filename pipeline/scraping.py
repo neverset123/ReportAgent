@@ -11,6 +11,7 @@ class Paper(BaseModel):
     abstract: str
     sentences: List[str]
     url: str
+    pdf_url: str
 
 # Function to split abstract into sentences
 def split_into_sentences(text):
@@ -36,7 +37,8 @@ def query_arxiv(topic):
             author=",".join([author.name for author in result.authors][:3]),
             abstract=result.summary,
             sentences=split_into_sentences(result.summary),
-            url=result.entry_id
+            url=result.entry_id,
+            pdf_url=result.pdf_url
         )
         articles.append(article)
     return articles
@@ -53,7 +55,8 @@ def save_to_db(articles, db_path):
             author TEXT,
             abstract TEXT,
             sentences TEXT,
-            url TEXT UNIQUE
+            url TEXT UNIQUE,
+            pdf_url TEXT UNIQUE
         )
     ''')
     # cursor.execute("update articles set llm = NULL where id >= 0")
@@ -61,9 +64,9 @@ def save_to_db(articles, db_path):
     for article in articles:
         try:
             cursor.execute('''
-                INSERT INTO articles (created, title, author, abstract, sentences, url)
-                VALUES (?, ?, ?, ?, ?, ?)
-            ''', (article.created, article.title, article.author, article.abstract, '\n'.join(article.sentences), article.url))
+                INSERT INTO articles (created, title, author, abstract, sentences, url, pdf_url)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (article.created, article.title, article.author, article.abstract, '\n'.join(article.sentences), article.url, article.pdf_url))
         except sqlite3.IntegrityError:
             print(f"Article with URL {article.url} already exists in the database.")
     conn.commit()

@@ -1,4 +1,5 @@
 arxiv
+arxiv2text
 pydantic
 torch  --index-url https://download.pytorch.org/whl/cu118
 torchvision --index-url https://download.pytorch.org/whl/cu118
@@ -12,3 +13,5 @@ jmespath
 beautifulsoup4
 lxml
 SQLAlchemy
+openai
+git+https://github.com/openai/swarm.git
