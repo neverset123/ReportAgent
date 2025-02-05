@@ -24,18 +24,37 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.10
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          cd slides
+          npm i -D playwright-chromium
+          npm install
       - name: Run build
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
           python pipeline/scraping.py
           python pipeline/tagging.py
+          python pipeline/extracting.py
+          python pipeline/reporting.py
           python pipeline/generating.py 
+      - name: Run npm export
+        run: |
+          cd slides
+          for file in md/*.md; do
+            echo "Processing $file"
+            filename=$(basename -- "$file")
+            filename_without_extension="${filename%.*}"
+            npm run export "$file"
+            mv "./$filename_without_extension-export.pdf" "../frontend/pdf/$filename_without_extension.pdf"
+          done
       - name: Run deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
