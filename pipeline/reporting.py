@@ -55,7 +55,7 @@ def generate_markdown(template, data):
             evaluation=ele.evaluation,
             conclusion=ele.conclusion
         )
-        filepath = f"./slides/{ele.id}.md"
+        filepath = f"./slides/md/{ele.id}.md"
         with open(filepath, 'w', encoding='utf-8') as file:
             file.write(content)
     print("Markdown content generated and saved successfully.")

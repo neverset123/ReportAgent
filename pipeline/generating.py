@@ -5,6 +5,7 @@ from config import config
 import sqlite3
 
 class PaperSchema(BaseModel):
+    id: int
     created: str
     title: str
     abstract: str
@@ -14,15 +15,16 @@ def read_data_from_db(db_path, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute(f"SELECT created, title, abstract, url FROM articles where {conf['label']} = 1 order by created desc limit 9")
+    cursor.execute(f"SELECT id, created, title, abstract, url FROM articles where {conf['label']} = 1 order by created desc limit 9")
     rows = cursor.fetchall()
     papers = []
     for row in rows:
         paper = PaperSchema(
-            created=row[0],
-            title=row[1],
-            abstract=row[2],
-            url=row[3],
+            id=row[0]
+            created=row[1],
+            title=row[2],
+            abstract=row[3],
+            url=row[4],
         )
         papers.append(paper)
     conn.close()
@@ -40,7 +42,7 @@ topics_data = {}
 db_path = 'arxiv_articles.db'
 for conf in confs:
     papers = read_data_from_db(db_path, conf["name"])
-    topics_data[conf["name"]] = [{"icon": "fa-gem", "created": paper.created, "title": paper.title, "abstract": paper.abstract, "url": paper.url} for paper in papers]
+    topics_data[conf["name"]] = [{"icon": "fa-gem", "id": paper.id, "created": paper.created, "title": paper.title, "abstract": paper.abstract, "url": paper.url} for paper in papers]
 
 # Read the HTML template
 with open('frontend/index-template.html', 'r', encoding='utf-8') as file:
@@ -111,6 +113,8 @@ for topic_title, items in topics_data.items():
         p_tag_url = soup.new_tag('p', **{"class": "pb-2 pt-2 text-center"})
         a_tag = soup.new_tag('a', **{"class":"underline decoration-2 text-green-600 text-md pt-2", "href":item["url"], "target":"_blank"})
         a_tag.string="full article"
+        a_tag = soup.new_tag('a', **{"class":"underline decoration-2 text-green-600 text-md pt-2 ml-4", "href":f"pdf/{str(item["id"])}.pdf", "target":"_blank"})
+        a_tag.string="report(pdf)"
 
         p_tag_url.append(a_tag)
         div_tag_collapse.append(p_tag)
