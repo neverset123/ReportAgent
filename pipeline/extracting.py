@@ -4,7 +4,6 @@ import os
 import openai
 import sqlite3
 from pydantic import BaseModel
-from typing import List
 from dotenv import load_dotenv
 from swarm import Agent, Swarm
 from arxiv2text import arxiv_to_text
