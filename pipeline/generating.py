@@ -20,7 +20,7 @@ def read_data_from_db(db_path, topic):
     papers = []
     for row in rows:
         paper = PaperSchema(
-            id=row[0]
+            id=row[0],
             created=row[1],
             title=row[2],
             abstract=row[3],
@@ -113,10 +113,11 @@ for topic_title, items in topics_data.items():
         p_tag_url = soup.new_tag('p', **{"class": "pb-2 pt-2 text-center"})
         a_tag = soup.new_tag('a', **{"class":"underline decoration-2 text-green-600 text-md pt-2", "href":item["url"], "target":"_blank"})
         a_tag.string="full article"
-        a_tag = soup.new_tag('a', **{"class":"underline decoration-2 text-green-600 text-md pt-2 ml-4", "href":f"pdf/{str(item["id"])}.pdf", "target":"_blank"})
-        a_tag.string="report(pdf)"
+        a_tag_2 = soup.new_tag('a', **{"class":"underline decoration-2 text-green-600 text-md pt-2 ml-4", "href":f"pdf/{str(item['id'])}.pdf", "target":"_blank"})
+        a_tag_2.string="report(pdf)"
 
         p_tag_url.append(a_tag)
+        p_tag_url.append(a_tag_2)
         div_tag_collapse.append(p_tag)
         div_tag_collapse.append(p_tag_url)
 

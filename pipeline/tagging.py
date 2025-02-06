@@ -1,10 +1,10 @@
 import sqlite3
-import torch
+# import torch
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification, AutoTokenizer
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 # from pydantic_sqlalchemy import sqlalchemy_to_pydantic
-from models import Paper
+# from models import Paper
 from training.text_model import TextClassifier
 from config import config
 
