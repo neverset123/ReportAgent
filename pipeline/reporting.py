@@ -18,7 +18,7 @@ def get_report_data_from_db(db_path):
     print("Read data from db...")
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute("select a.id, a.title, a.author, a.created, r.problem, r.approach, r.model, r.dataset, r.evaluation, r.conclusion from articles a inner join report r using (id)")
+    cursor.execute("select a.id, a.title, a.author, a.created, r.problem, r.approach, r.model, r.dataset, r.evaluation, r.conclusion from articles a inner join report r using (id) where a.id >19 order by a.created")
     rows = cursor.fetchall()
     data = []
     for row in rows:
@@ -41,7 +41,6 @@ def get_report_data_from_db(db_path):
 def read_markdown_template(filepath):
     with open(filepath, 'r', encoding='utf-8') as file:
         return file.read()
-
 
 def generate_markdown(template, data):
     for ele in data:
