@@ -57,7 +57,11 @@ jobs:
             filename=$(basename -- "$file")
             filename_without_extension="${filename%.*}"
             npm run export "$file"
-            mv "./$filename_without_extension-export.pdf" "../frontend/pdf/$filename_without_extension.pdf"
+            if [ -f "./$filename_without_extension-export.pdf" ]; then
+              mv "./$filename_without_extension-export.pdf" "../frontend/pdf/$filename_without_extension.pdf"
+            else
+              echo "File ./$filename_without_extension-export.pdf does not exist, skipping move."
+            fi
           done
       - name: Run deploy
         id: builddeploy
