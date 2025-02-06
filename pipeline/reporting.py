@@ -15,6 +15,7 @@ class SlideSchema(BaseModel):
     conclusion: str
 
 def get_report_data_from_db(db_path):
+    print("Read data from db...")
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("select a.id, a.title, a.author, a.created, r.problem, r.approach, r.model, r.dataset, r.evaluation, r.conclusion from articles a inner join report r using (id)")

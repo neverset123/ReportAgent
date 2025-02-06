@@ -99,6 +99,7 @@ def extract_metadata(urls):
             print(f"Unexpected error for paper {ele.id}: {e}")
             res_dict = {}
         metadatas.append((ele.id, res_dict))
+        print(f"metadta of paper {ele.id} is extracted!")
     return metadatas
 
 # Function to write predictions back to SQLite database
@@ -130,6 +131,7 @@ def save_metadata_to_db(db_path, metadatas):
             print(f"report with id {id} already exists in the database.")
     conn.commit()
     conn.close()
+    print("all metadata are saved in db!")
 
 if __name__ == "__main__":
     db_path = 'arxiv_articles.db'
