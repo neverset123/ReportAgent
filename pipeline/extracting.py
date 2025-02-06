@@ -89,7 +89,7 @@ def extract_metadata(urls):
         )
         try:
             res_dict = json.loads(response.messages[-1]["content"])
-        except json.JSONDecodeError as e:
+        except json.decoder.JSONDecodeError as e:
             print(f"JSONDecodeError for paper {ele.id}: {e}")
             res_dict = {}
         except TypeError as e:
