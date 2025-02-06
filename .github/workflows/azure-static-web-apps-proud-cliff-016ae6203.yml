@@ -63,6 +63,7 @@ jobs:
               echo "File ./$filename_without_extension-export.pdf does not exist, skipping move."
             fi
           done
+          ls ../frontend/pdf
       - name: Run deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
