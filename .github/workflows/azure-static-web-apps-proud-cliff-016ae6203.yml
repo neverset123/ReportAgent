@@ -52,6 +52,7 @@ jobs:
       - name: Run npm export
         run: |
           cd slides
+          mkdir -p ../frontend/pdf
           for file in md/*.md; do
             echo "Processing $file"
             filename=$(basename -- "$file")
