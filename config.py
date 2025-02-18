@@ -28,14 +28,14 @@ class SectionConfig:
 config = SectionConfig(sections=[
     Section(
         name="RAG",
-        keywords=["rag"],
+        keywords=["rag", "recommendation"],
         description="RAG (Retrieval-Augmented Generation) is a machine learning approach that combines information retrieval from external sources with generative models to improve the accuracy and relevance of responses.",
         label="rag",
         threshold=0.5
     ),
     Section(
         name="LLM",
-        keywords=["llm", "agent"],
+        keywords=["llm", "deepseek"],
         description="A Large Language Model (LLM) is an AI model trained on vast amounts of text data to understand, generate, and manipulate human language with high proficiency.",
         label="llm",
         threshold=0.6

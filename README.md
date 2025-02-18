@@ -5,6 +5,9 @@ The Report Agent offers comprehensive and customizable report generation capabil
 
 The integration of GPT empowers the Report Agent to handle interactive queries effectively, allows users to ask natural language questions about data and trends, provides detailed, contextual, and human-like responses for deeper insights.
 
+Cognitive Report with perspective: According to cognitive theory, human writers continuously reflect on previously gathered information and personal experiences, allowing
+them to reorganize, filter, and refine their cognitive framework. This process prompts writers to iteratively adjust their writing direction and mental pathways, ultimately allowing human authors to generate more profound, nuanced and original
+content
 ### Service
 The frontend can be accessed with [Report Agent](https://proud-cliff-016ae6203.4.azurestaticapps.net).
 The chatbot can be accessed only by priviledged user for security reason.
