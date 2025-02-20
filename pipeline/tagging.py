@@ -73,7 +73,7 @@ def write_predictions_to_db(db_path, predictions, topic):
     cursor = conn.cursor()
     for id, prediction in predictions:
         cursor.execute(f"UPDATE articles SET {conf['label']} = ? WHERE id = ?", (prediction, id))
-    conn.commit()
+        conn.commit()
     conn.close()
 
 # Main function

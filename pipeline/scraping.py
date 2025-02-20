@@ -89,7 +89,7 @@ def save_to_db(articles, db_path):
             ''', (article.created, article.title, article.author, article.abstract, '\n'.join(article.sentences), article.url, article.pdf_url))
         except sqlite3.IntegrityError:
             print(f"Article with URL {article.url} already exists in the database.")
-    conn.commit()
+        conn.commit()
     conn.close()
 
 # Main function to query and save articles

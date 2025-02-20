@@ -43,7 +43,6 @@ jobs:
         run: |
           python pipeline/scraping.py
           python pipeline/tagging.py
-          python pipeline/extracting.py
           python pipeline/reporting.py
           python pipeline/generating.py 
       - name: Run npm export
