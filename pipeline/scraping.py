@@ -3,6 +3,7 @@ import sqlite3
 from pydantic import BaseModel
 from typing import List
 from config import config
+from semanticscholar import SemanticScholar
 
 class Paper(BaseModel):
     created: str
@@ -18,6 +19,25 @@ def split_into_sentences(text):
     import re
     sentence_endings = re.compile(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s')
     return sentence_endings.split(text)
+
+def query_semantic_scholar(topic):
+    conf = config.get_config(topic)
+    query_keywords = " | ".join(conf["keywords"])
+    sch = SemanticScholar()
+    results = sch.search_paper(query=query_keywords, bulk=False, open_access_pdf=True, fields=['publicationDate','title','authors','abstract','url','openAccessPdf','citationCount'], sort='publicationDate:desc', limit=10)
+    articles = []
+    for result in results.items:
+        article = Paper(
+            created=result.publicationDate.strftime('%Y-%m-%d') if result.publicationDate is not None else "",
+            title=result.title,
+            author=",".join([author.name for author in result.authors][:3]),
+            abstract=result.abstract if result.abstract is not None else "",
+            sentences=split_into_sentences(result.abstract) if isinstance(result.abstract, str) else [],
+            url=result.url,
+            pdf_url=result.openAccessPdf['url']
+        )
+        articles.append(article)
+    return articles
 
 # Function to query arXiv API for a specific topic
 def query_arxiv(topic):
@@ -76,6 +96,7 @@ def save_to_db(articles, db_path):
 def main(topics, db_path):
     for topic in topics:
         articles = query_arxiv(topic)
+        # articles = query_semantic_scholar(topic)
         save_to_db(articles, db_path)
         print(f"Processed {len(articles)} articles for topic {topic}.")
 
