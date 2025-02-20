@@ -14,5 +14,6 @@ beautifulsoup4
 lxml
 SQLAlchemy
 openai
+semanticscholar
 python-dotenv
 git+https://github.com/openai/swarm.git
