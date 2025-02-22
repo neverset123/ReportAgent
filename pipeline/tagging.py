@@ -13,8 +13,6 @@ class PaperSchema(BaseModel):
     sentences: List[str]
 
 # PaperSchema = sqlalchemy_to_pydantic(Paper)
-
-# Function to read data from SQLite database
 def read_data_from_db(db_path, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
@@ -33,19 +31,15 @@ def read_data_from_db(db_path, topic):
 
 def split_text_into_chunks(text, max_length=512):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
-    # Tokenize the text
     tokens = tokenizer.tokenize(text)
-    
-    # Split tokens into chunks of max_length
     chunks = []
     for i in range(0, len(tokens), max_length):
         chunk_tokens = tokens[i:i + max_length]
         chunk_text = tokenizer.convert_tokens_to_string(chunk_tokens)
         chunks.append(chunk_text)
-    
     return chunks
 
-# Function to predict relevance using DistilBERT
+# predict relevance using DistilBERT
 def predict_relevance(papers, topic):
     predictions = []
     conf = config.get_config(topic)
@@ -57,8 +51,8 @@ def predict_relevance(papers, topic):
         sentences = " ".join(paper.sentences)
         sentence_chunks = split_text_into_chunks(sentences)
         for sentence in sentence_chunks:
-            print(sentence)
-            print(model.predict_proba([sentence]))
+            # print(sentence)
+            # print(model.predict_proba([sentence]))
             if model.predict_proba([sentence])[0, 1] > 0.5:
                 count += 1
         print(count/len(sentence_chunks))
@@ -66,7 +60,6 @@ def predict_relevance(papers, topic):
         predictions.append((paper.id, prediction))
     return predictions
 
-# Function to write predictions back to SQLite database
 def write_predictions_to_db(db_path, predictions, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
@@ -76,17 +69,12 @@ def write_predictions_to_db(db_path, predictions, topic):
         conn.commit()
     conn.close()
 
-# Main function
-def main(db_path, topics):
+if __name__ == '__main__':
+    db_path = 'arxiv_articles.db'
+    # topics = config.get_config_names()
+    topics = ["LLM", "RAG"]
     for topic in topics:
         papers = read_data_from_db(db_path, topic)
         predictions = predict_relevance(papers, topic)
         write_predictions_to_db(db_path, predictions, topic)
         print(f"Processed {len(papers)} papers for topic {topic} and wrote predictions to the database.")
-
-# Example usage
-if __name__ == '__main__':
-    db_path = 'arxiv_articles.db'
-    # topics = config.get_config_names()
-    topics = ["LLM", "RAG"]
-    main(db_path, topics)
