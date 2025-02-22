@@ -15,5 +15,6 @@ lxml
 SQLAlchemy
 openai
 semanticscholar
+marker-pdf
 python-dotenv
 git+https://github.com/openai/swarm.git
