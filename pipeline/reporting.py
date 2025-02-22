@@ -3,6 +3,7 @@ import requests
 import os
 import openai
 import sqlite3
+import PIL
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from swarm import Agent, Swarm
@@ -47,13 +48,13 @@ transition: slide-right
 # Problem Statement
 {problem}
 ---
+layout: two-cols
+---
 
 # Key Approach
 {approach}
 ::right::
-<div grid="~ cols-2 gap-2" m="t-2">
 <img border="rounded" src="{img1}" alt="">
-</div>
 ---
 transition: slide-up
 level: 2
@@ -68,17 +69,15 @@ level: 2
 
 # Dataset 
 {dataset}
-<div grid="~ cols-2 gap-2" m="t-2">
 <img border="rounded" src="{img2}" alt="">
-</div>
+---
+layout: two-cols
 ---
 
 # Evaluation 
 {evaluation}
 ::right::
-<div grid="~ cols-2 gap-2" m="t-2">
 <img border="rounded" src="{img3}" alt="">
-</div>
 ---
 
 # Conclusion
@@ -116,6 +115,7 @@ def extract_page_figure(s):
 
 def extract_image(elements):
     img_path_list = []
+    new_width = 577
     for ele in elements:
         img_paths = []
         os.makedirs("data/", exist_ok=True)
@@ -133,7 +133,11 @@ def extract_image(elements):
         _, _, images = text_from_rendered(rendered)
         for key, value in images.items():
             img_path = f"slides/md/{str(ele.id)}/{key}"
-            value.save(img_path)
+            original_width, original_height = value.size
+            aspect_ratio = original_height / original_width
+            new_height = int(new_width * aspect_ratio)
+            resized_img = value.resize((new_width, new_height), PIL.Image.LANCZOS)
+            resized_img.save(img_path)
             img_paths.append(f"/{str(ele.id)}/{key}")
         img_path_list.append(sorted(img_paths, key=extract_page_figure))
     return img_path_list
