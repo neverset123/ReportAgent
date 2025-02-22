@@ -1,5 +1,5 @@
 # extract information from arxiv paper with multi-agent framework swarm (Requires Python 3.10+)
-import json
+import requests
 import os
 import openai
 import sqlite3
@@ -7,6 +7,10 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from swarm import Agent, Swarm
 from arxiv2text import arxiv_to_text
+from marker.converters.pdf import PdfConverter
+from marker.models import create_model_dict
+from marker.config.parser import ConfigParser
+from marker.output import text_from_rendered
 load_dotenv()
 
 response_template = """
@@ -46,6 +50,10 @@ transition: slide-right
 
 # Key Approach
 {approach}
+::right::
+<div grid="~ cols-2 gap-2" m="t-2">
+<img border="rounded" src="{img1}" alt="">
+</div>
 ---
 transition: slide-up
 level: 2
@@ -60,10 +68,17 @@ level: 2
 
 # Dataset 
 {dataset}
+<div grid="~ cols-2 gap-2" m="t-2">
+<img border="rounded" src="{img2}" alt="">
+</div>
 ---
 
 # Evaluation 
 {evaluation}
+::right::
+<div grid="~ cols-2 gap-2" m="t-2">
+<img border="rounded" src="{img3}" alt="">
+</div>
 ---
 
 # Conclusion
@@ -82,14 +97,69 @@ user_message = ("Instructions: " +
                 "- Conclusion: Summarize the conclusions, include the significance of the findings, potential applications, limitations and future work.\n " 
                 "Ensure that the summary is clear and concise, all details are accurate and faithfully represent the content of the original paper.")
 
+
+config = {"output_format": "markdown"}
+config_parser = ConfigParser(config)
+converter = PdfConverter(
+    config=config_parser.generate_config_dict(),
+    artifact_dict=create_model_dict(),
+    processor_list=config_parser.get_processors(),
+    renderer=config_parser.get_renderer(),
+    llm_service=config_parser.get_llm_service()
+)
+
+def extract_page_figure(s):
+    parts = s.split('_')
+    page_number = int(parts[2])
+    figure_number = int(parts[4].replace('.jpeg', ''))
+    return (page_number, figure_number)
+
+def extract_image(elements):
+    img_path_list = []
+    for ele in elements:
+        img_paths = []
+        os.makedirs("data/", exist_ok=True)
+        os.makedirs(f"slides/md/{str(ele.id)}", exist_ok=True)
+        response = requests.get(ele.url)
+        file_path = f"data/arxiv_{ele.id}.pdf"
+        if response.status_code == 200:
+            with open(file_path, 'wb') as file:
+                file.write(response.content)
+            print(f"PDF downloaded successfully")
+        else:
+            print(f"Failed to download: {response.status_code}")
+
+        rendered = converter(file_path)
+        _, _, images = text_from_rendered(rendered)
+        for key, value in images.items():
+            img_path = f"slides/md/{str(ele.id)}/{key}"
+            value.save(img_path)
+            img_paths.append(f"/{str(ele.id)}/{key}")
+        img_path_list.append(sorted(img_paths, key=extract_page_figure))
+    return img_path_list
+
 def proprocess_paper(context_variables):
     paper_text = arxiv_to_text(context_variables["url"])
     return f"Summary: {paper_text[:4000]}"
 
 def preprocess_template(context_variable):
-    new_template = (response_template.replace("{title}", context_variable["title"])
+    template_updated = (response_template.replace("{title}", context_variable["title"])
                              .replace("{author}",  context_variable["author"])
                              .replace("{date}", context_variable["date"]))
+    img_list = []
+    if len(context_variable["img"])>=3:
+        img_list = [context_variable["img"][0], context_variable["img"][1], context_variable["img"][2]]
+    elif len(context_variable["img"])==2:
+        img_list = [context_variable["img"][0], context_variable["img"][1], ""]
+    elif len(context_variable["img"])==1:
+        img_list = [context_variable["img"][0], "", ""]
+    else:
+        img_list = ["", "", ""]
+
+    new_template = (template_updated.replace("{img1}", img_list[0])
+                            .replace("{img2}", img_list[1])
+                            .replace("{img3}", img_list[2])
+                    )
     instruction= ("You are an expert in summarizing scientific papers. " + \
     "Goal is to create concise and informative summaries, with each section around 100-200 words. " + \
     f"Structure the output into the string {new_template} without any prefix or postfix")
@@ -135,14 +205,14 @@ def get_urls_from_db(db_path):
     conn.close()
     return data
 
-def generate_md(elements, db_path):
+def generate_md(elements, db_path, img_path_list):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    for ele in elements:
+    for index,  ele in enumerate(elements):
         response = client.run(
             agent=Paper_agent,
             messages=[{"role": "user", "content": user_message}],
-            context_variables={"url": ele.url, "title": ele.title, "author": ele.author, "date": ele.date}
+            context_variables={"url": ele.url, "title": ele.title, "author": ele.author, "date": ele.date, "img": img_path_list[index]}
         )
         try:
             res_md = response.messages[-1]["content"]
@@ -160,4 +230,5 @@ def generate_md(elements, db_path):
 if __name__ == "__main__":
     db_path = 'arxiv_articles.db'
     data = get_urls_from_db(db_path)
-    metadatas = generate_md(data, db_path)
+    img_path_list = extract_image(data)
+    metadatas = generate_md(data, db_path, img_path_list)
