@@ -24,7 +24,7 @@ def query_semantic_scholar(topic):
     conf = config.get_config(topic)
     query_keywords = " | ".join(conf["keywords"])
     sch = SemanticScholar()
-    results = sch.search_paper(query=query_keywords, bulk=False, open_access_pdf=True, fields=['publicationDate','title','authors','abstract','url','openAccessPdf','citationCount'], sort='publicationDate:desc', limit=10)
+    results = sch.search_paper(query=query_keywords, bulk=False, open_access_pdf=True, fields=['publicationDate','title','authors','abstract','url','openAccessPdf','citationCount'], sort='publicationDate:desc', limit=20)
     articles = []
     for result in results.items:
         article = Paper(
@@ -46,7 +46,7 @@ def query_arxiv(topic):
     query = f"abs:{query_keywords} AND (cat:cs.CV OR cat:cs.LG OR cat:cs.CL OR cat:cs.AI OR cat:cs.NE OR cat:cs.RO)"
     search = arxiv.Search(
         query=query,
-        max_results=10,
+        max_results=20,
         sort_by=arxiv.SortCriterion.SubmittedDate
     )
     articles = []
@@ -92,17 +92,13 @@ def save_to_db(articles, db_path):
         conn.commit()
     conn.close()
 
-# Main function to query and save articles
-def main(topics, db_path):
-    for topic in topics:
-        articles = query_arxiv(topic)
-        # articles = query_semantic_scholar(topic)
-        save_to_db(articles, db_path)
-        print(f"Processed {len(articles)} articles for topic {topic}.")
-
 # Example usage
 if __name__ == '__main__':
     # topics = config.get_config_names()
     topics = ["RAG", "CLIP"]
     db_path = 'arxiv_articles.db'
-    main(topics, db_path)
+    for topic in topics:
+        articles = query_arxiv(topic)
+        # articles = query_semantic_scholar(topic)
+        save_to_db(articles, db_path)
+        print(f"Processed {len(articles)} articles for topic {topic}.")
