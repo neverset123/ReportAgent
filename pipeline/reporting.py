@@ -4,6 +4,7 @@ import os
 import openai
 import sqlite3
 import PIL
+from config import config
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from swarm import Agent, Swarm
@@ -97,8 +98,7 @@ user_message = ("Instructions: " +
                 "Ensure that the summary is clear and concise, all details are accurate and faithfully represent the content of the original paper.")
 
 
-config = {"output_format": "markdown"}
-config_parser = ConfigParser(config)
+config_parser = ConfigParser({"output_format": "markdown"})
 converter = PdfConverter(
     config=config_parser.generate_config_dict(),
     artifact_dict=create_model_dict(),
