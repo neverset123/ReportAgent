@@ -195,7 +195,7 @@ def get_urls_from_db(db_path, topic):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     # cursor.execute("select id, pdf_url from articles where id not in (select id from report)")
-    cursor.execute("select id, title, author, created, pdf_url from articles where report is null and {conf['label']} = 1")
+    cursor.execute(f"select id, title, author, created, pdf_url from articles where report is null and {conf['label']} = 1")
     rows = cursor.fetchall()
     data = []
     for row in rows:
