@@ -113,8 +113,8 @@ def predict_relevance_emb(papers, topic):
                 count += 1
         count_perc = count/len(conf["embedding"])
         print(count_perc)
-        prediction = 1 if count_perc > 0.5 else 0
-        predictions.append((paper.id, prediction))
+        prediction = 1 if count_perc > 0.2 else 0
+        predictions.append((id, prediction))
     return predictions
 
 def write_predictions_to_db(db_path, predictions, topic):
