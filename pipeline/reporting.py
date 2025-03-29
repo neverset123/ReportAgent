@@ -233,7 +233,7 @@ def generate_md(elements, db_path, img_path_list):
     conn.close()
 
 if __name__ == "__main__":
-    topics = ["RAG", "CLIP"]
+    topics = ["RAG", "CLIP","LLM"]
     db_path = 'arxiv_articles.db'
     for topic in topics:
         data = get_urls_from_db(db_path, topic)

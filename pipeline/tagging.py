@@ -33,6 +33,7 @@ def read_data_from_db(db_path, topic):
     conn.close()
     return papers
 
+# distilbert: used for NLP task
 def split_text_into_chunks(text, max_length=512):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
     tokens = tokenizer.tokenize(text)
@@ -109,6 +110,7 @@ def predict_relevance_emb(papers, topic):
         for emb_ref in conf["embedding"]:
             score = cosine_similarity(emb, emb_ref)
             print(score)
+            # change to min-max strategy
             if score > 0.7:
                 count += 1
         count_perc = count/len(conf["embedding"])
@@ -129,7 +131,7 @@ def write_predictions_to_db(db_path, predictions, topic):
 if __name__ == '__main__':
     db_path = 'arxiv_articles.db'
     # topics = config.get_config_names()
-    topics = ["RAG", "CLIP"]
+    topics = ["RAG", "CLIP","LLM"]
     for topic in topics:
         papers = read_data_from_db(db_path, topic)
         predictions = predict_relevance_emb(papers, topic)
