@@ -19,9 +19,7 @@ class PaperSchema(BaseModel):
 def read_data_from_db(db_path, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    cursor.execute(f"SELECT id, title, sentences FROM articles where {conf['label']} is null")
-    rows = cursor.fetchall()
+    rows = conn.execute(f"SELECT id, title, sentences FROM articles where {conf['label']} is null").fetchall()
     papers = []
     for row in rows:
         paper = PaperSchema(
@@ -122,9 +120,8 @@ def predict_relevance_emb(papers, topic):
 def write_predictions_to_db(db_path, predictions, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
     for id, prediction in predictions:
-        cursor.execute(f"UPDATE articles SET {conf['label']} = ? WHERE id = ?", (prediction, id))
+        conn.execute(f"UPDATE articles SET {conf['label']} = ? WHERE id = ?", (prediction, id))
         conn.commit()
     conn.close()
 

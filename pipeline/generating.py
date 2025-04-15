@@ -14,9 +14,9 @@ class PaperSchema(BaseModel):
 def read_data_from_db(db_path, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    cursor.execute(f"SELECT id, created, title, abstract, url FROM articles where {conf['label']} = 1 order by created desc limit 9")
-    rows = cursor.fetchall()
+    # conn.row_factory = sqlite3.Row # to return dicts rather than tuples
+    # The sqlite3 library in Python allows you to use conn.execute() directly, instead of creating cursor
+    rows = conn.execute(f"SELECT id, created, title, abstract, url FROM articles where {conf['label']} = 1 order by created desc limit 9").fetchall()
     papers = []
     for row in rows:
         paper = PaperSchema(

@@ -66,8 +66,7 @@ def query_arxiv(topic):
 # Function to save articles to SQLite database
 def save_to_db(articles, db_path):
     conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    cursor.execute('''
+    conn.execute('''
         CREATE TABLE IF NOT EXISTS articles (
             id INTEGER PRIMARY KEY,
             created TEXT,
@@ -83,7 +82,7 @@ def save_to_db(articles, db_path):
     # cursor.execute("drop table articles")
     for article in articles:
         try:
-            cursor.execute('''
+            conn.execute('''
                 INSERT INTO articles (created, title, author, abstract, sentences, url, pdf_url)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', (article.created, article.title, article.author, article.abstract, '\n'.join(article.sentences), article.url, article.pdf_url))

@@ -193,10 +193,7 @@ class ReportSchema(BaseModel):
 def get_urls_from_db(db_path, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    # cursor.execute("select id, pdf_url from articles where id not in (select id from report)")
-    cursor.execute(f"select id, title, author, created, pdf_url from articles where report is null and {conf['label']} = 1")
-    rows = cursor.fetchall()
+    rows =  conn.execute(f"select id, title, author, created, pdf_url from articles where report is null and {conf['label']} = 1").fetchall()
     data = []
     for row in rows:
         ele = ReportSchema(
@@ -212,7 +209,6 @@ def get_urls_from_db(db_path, topic):
 
 def generate_md(elements, db_path, img_path_list):
     conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
     for index,  ele in enumerate(elements):
         response = client.run(
             agent=Paper_agent,
@@ -228,7 +224,7 @@ def generate_md(elements, db_path, img_path_list):
         with open(filepath, 'w', encoding='utf-8') as file:
             file.write(res_md)
         print(f"Markdown content for article {ele.id} is saved successfully.")
-        cursor.execute(f"UPDATE articles SET report = ? WHERE id = ?", (True, ele.id))
+        conn.execute(f"UPDATE articles SET report = ? WHERE id = ?", (True, ele.id))
         conn.commit()
     conn.close()
 
