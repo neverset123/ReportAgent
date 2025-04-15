@@ -1,6 +1,6 @@
+# update this file to render template with jinja2 instead of BeautifulSoup
 from bs4 import BeautifulSoup
 from pydantic import BaseModel
-from typing import List, Optional
 from config import config
 import sqlite3
 
