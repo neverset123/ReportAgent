@@ -11,3 +11,7 @@ content
 ### Service
 The frontend can be accessed with [Report Agent](https://proud-cliff-016ae6203.4.azurestaticapps.net).
 The chatbot can be accessed only by priviledged user for security reason.
+## Others
+1. integrate paper2poster
+https://github.com/Paper2Poster/Paper2Poster
+2. 
