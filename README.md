@@ -14,4 +14,4 @@ The chatbot can be accessed only by priviledged user for security reason.
 ## Others
 1. integrate paper2poster
 https://github.com/Paper2Poster/Paper2Poster
-2. 
+2. add frontend similar to https://www.alphaxiv.org/
