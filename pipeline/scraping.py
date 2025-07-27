@@ -24,7 +24,7 @@ def query_semantic_scholar(topic):
     conf = config.get_config(topic)
     query_keywords = " | ".join(conf["keywords"])
     sch = SemanticScholar()
-    results = sch.search_paper(query=query_keywords, bulk=False, open_access_pdf=True, fields=['publicationDate','title','authors','abstract','url','openAccessPdf','citationCount'], sort='publicationDate:desc', limit=20)
+    results = sch.search_paper(query=query_keywords, bulk=False, open_access_pdf=True, fields=['publicationDate','title','authors','abstract','url','openAccessPdf','citationCount'], sort='publicationDate:desc', limit=10)
     articles = []
     for result in results.items:
         article = Paper(
