@@ -46,7 +46,7 @@ def query_arxiv(topic):
     query = f"abs:{query_keywords} AND (cat:cs.CV OR cat:cs.LG OR cat:cs.CL OR cat:cs.AI OR cat:cs.NE OR cat:cs.RO)"
     search = arxiv.Search(
         query=query,
-        max_results=20,
+        max_results=10,
         sort_by=arxiv.SortCriterion.SubmittedDate
     )
     articles = []
