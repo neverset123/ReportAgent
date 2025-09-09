@@ -15,3 +15,4 @@ The chatbot can be accessed only by priviledged user for security reason.
 1. integrate paper2poster
 https://github.com/Paper2Poster/Paper2Poster
 2. add frontend similar to https://www.alphaxiv.org/
+3. add RAG search[https://github.com/David-Lolly/TinyAISearch]
