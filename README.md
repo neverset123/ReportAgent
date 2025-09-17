@@ -17,3 +17,4 @@ https://github.com/Paper2Poster/Paper2Poster
 2. add frontend similar to https://www.alphaxiv.org/
 3. add RAG search[https://github.com/David-Lolly/TinyAISearch]
 4. try FastEmbed, which states it is better than OpenAI Ada-002.
+5. try full text search with BM25 and PorterStemmer
