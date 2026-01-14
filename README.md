@@ -18,3 +18,4 @@ https://github.com/Paper2Poster/Paper2Poster
 3. add RAG search[https://github.com/David-Lolly/TinyAISearch]
 4. try FastEmbed, which states it is better than OpenAI Ada-002.
 5. try full text search with BM25 and PorterStemmer
+6. integrate kroki to generate diagram for ppt(kroki convert diagram.puml)
