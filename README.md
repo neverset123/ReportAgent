@@ -15,8 +15,9 @@ The chatbot can be accessed only by priviledged user for security reason.
 1. integrate paper2poster
 https://github.com/Paper2Poster/Paper2Poster
 2. add frontend similar to https://www.alphaxiv.org/
-3. add RAG search[https://github.com/David-Lolly/TinyAISearch]
-4. try FastEmbed, which states it is better than OpenAI Ada-002.
-5. try full text search with BM25 and PorterStemmer
-6. integrate kroki to generate diagram for ppt(kroki convert diagram.puml)
-7. experiment paper idea with autoresearch:https://github.com/karpathy/autoresearch?tab=readme-ov-file
+3. using finepdf for pdf data extraction: https://github.com/huggingface/finepdfs.git
+4. add RAG search[https://github.com/David-Lolly/TinyAISearch]
+5. try FastEmbed, which states it is better than OpenAI Ada-002.
+6. try full text search with BM25 and PorterStemmer
+7. integrate kroki to generate diagram for ppt(kroki convert diagram.puml)
+8. experiment paper idea with autoresearch:https://github.com/karpathy/autoresearch?tab=readme-ov-file
