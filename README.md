@@ -19,3 +19,4 @@ https://github.com/Paper2Poster/Paper2Poster
 4. try FastEmbed, which states it is better than OpenAI Ada-002.
 5. try full text search with BM25 and PorterStemmer
 6. integrate kroki to generate diagram for ppt(kroki convert diagram.puml)
+7. experiment paper idea with autoresearch:https://github.com/karpathy/autoresearch?tab=readme-ov-file
