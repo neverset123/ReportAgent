@@ -1,6 +1,135 @@
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
+import json
+import os
+from typing import Literal
+
+import httpx
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+
+AuthProvider = Literal["anthropic", "openai", "gemini", "bedrock", "custom"]
+
+PROVIDER_BASE_URLS: dict[AuthProvider, str] = {
+    "anthropic": "https://api.anthropic.com/v1",
+    "openai": "https://api.openai.com/v1",
+    "gemini": "https://generativelanguage.googleapis.com/v1beta/openai",
+    "bedrock": "",
+    "custom": "",
+}
+
+PROVIDER_DEFAULT_MODELS: dict[AuthProvider, str] = {
+    "anthropic": "anthropic::claude-4-5-sonnet",
+    "openai": "gpt-4o-mini",
+    "gemini": "gemini-2.0-flash",
+    "bedrock": "anthropic.claude-sonnet-4-20250514-v1:0",
+    "custom": "default",
+}
+
+
+@dataclass
+class LLMConfig:
+    provider: AuthProvider = "custom"
+    api_key: str = ""
+    base_url: str = ""
+    model: str = ""
+    max_tokens: int = 4096
+    temperature: float = 0.7
+
+    @classmethod
+    def from_env(cls) -> "LLMConfig":
+        """Resolve LLM config from environment variables."""
+        # 1. Anthropic
+        anthropic_key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("ANTHROPIC_AUTH_TOKEN")
+        if anthropic_key:
+            base_url = os.getenv("ANTHROPIC_BASE_URL", PROVIDER_BASE_URLS["anthropic"])
+            if base_url and not base_url.endswith("/v1") and not base_url.endswith("/v1/"):
+                base_url = base_url.rstrip("/") + "/v1"
+            return cls(
+                provider="anthropic",
+                api_key=anthropic_key,
+                base_url=base_url,
+                model=os.getenv("CHAT_MODEL", PROVIDER_DEFAULT_MODELS["anthropic"]),
+            )
+
+        # 2. OpenAI
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if openai_key:
+            return cls(
+                provider="openai",
+                api_key=openai_key,
+                base_url=os.getenv("BASE_URL", PROVIDER_BASE_URLS["openai"]),
+                model=os.getenv("CHAT_MODEL", PROVIDER_DEFAULT_MODELS["openai"]),
+            )
+
+        # 3. Gemini
+        gemini_key = os.getenv("GEMINI_API_KEY")
+        if gemini_key:
+            return cls(
+                provider="gemini",
+                api_key=gemini_key,
+                base_url=os.getenv("BASE_URL", PROVIDER_BASE_URLS["gemini"]),
+                model=os.getenv("CHAT_MODEL", PROVIDER_DEFAULT_MODELS["gemini"]),
+            )
+
+        # 4. Bedrock
+        if os.getenv("CLAUDE_CODE_USE_BEDROCK") or os.getenv("AWS_BEDROCK_BASE_URL"):
+            return cls(
+                provider="bedrock",
+                api_key=os.getenv("AWS_ACCESS_KEY_ID", "bedrock"),
+                base_url=os.getenv("AWS_BEDROCK_BASE_URL", os.getenv("BASE_URL", "")),
+                model=os.getenv("CHAT_MODEL", PROVIDER_DEFAULT_MODELS["bedrock"]),
+            )
+
+        # 5. Custom / Azure (uses BASE_URL + API_KEY or APIKEY)
+        base_url = os.getenv("BASE_URL") or os.getenv("ENDPOINT", "")
+        api_key = os.getenv("API_KEY") or os.getenv("APIKEY") or os.getenv("OPENAI_API_KEY", "")
+        if base_url and api_key:
+            return cls(
+                provider="custom",
+                api_key=api_key,
+                base_url=base_url,
+                model=os.getenv("CHAT_MODEL", PROVIDER_DEFAULT_MODELS["custom"]),
+            )
+
+        # Fallback: Ollama local
+        return cls(
+            provider="custom",
+            api_key="",
+            base_url="http://localhost:11434/v1",
+            model=os.getenv("CHAT_MODEL", "llama3"),
+        )
+
+
+def _build_http_client() -> httpx.Client:
+    """Build httpx client respecting proxy and SSL settings."""
+    verify = os.getenv("NODE_TLS_REJECT_UNAUTHORIZED", "1") != "0"
+    proxy = os.getenv("HTTPS_PROXY") or os.getenv("https_proxy") or None
+    return httpx.Client(verify=verify, proxy=proxy)
+
+
+class LLMClient:
+    def __init__(self, llm_config: LLMConfig):
+        self.config = llm_config
+        self.client = OpenAI(
+            api_key=llm_config.api_key,
+            base_url=llm_config.base_url,
+            http_client=_build_http_client(),
+        )
+
+    def chat(self, messages: list[dict], temperature: float | None = None) -> str:
+        """Simple chat completion."""
+        response = self.client.chat.completions.create(
+            model=self.config.model,
+            messages=messages,
+            max_tokens=self.config.max_tokens,
+            temperature=temperature or self.config.temperature,
+        )
+        return response.choices[0].message.content or ""
+
 @dataclass
 class Section:
     name: str
