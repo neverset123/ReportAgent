@@ -16,6 +16,6 @@ SQLAlchemy
 openai
 Pillow
 semanticscholar
-marker-pdf
+marker-pdf==1.8.0
 python-dotenv
 git+https://github.com/openai/swarm.git

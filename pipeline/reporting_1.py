@@ -170,19 +170,6 @@ layout: default
 
 {conclusion}"""
 
-SLIDE_END = """\
-
----
-layout: center
-class: text-center
----
-
-# Thank You
-
-<div class="text-sm opacity-50 pt-4">
-Questions & Discussion
-</div>"""
-
 # --- LLM Prompt ---
 
 SYSTEM_PROMPT = """\
@@ -299,7 +286,6 @@ def assemble_slides(sections: dict, title: str, author: str, date: str, img_list
         parts.append(SLIDE_EVALUATION_NO_IMG.format(evaluation=sections.get("evaluation", "")))
 
     parts.append(SLIDE_CONCLUSION.format(conclusion=sections.get("conclusion", "")))
-    parts.append(SLIDE_END)
 
     return "\n".join(parts) + "\n"
 
@@ -333,7 +319,7 @@ def get_urls_from_db(db_path, topic):
     conf = config.get_config(topic)
     conn = sqlite3.connect(db_path)
     rows = conn.execute(
-        f"select id, title, author, created, pdf_url from articles where report is null and {conf['label']} = 1"
+        f"select id, title, author, created, pdf_url from articles where {conf['label']} = 1 limit 1"
     ).fetchall()
     data = []
     for row in rows:
@@ -408,7 +394,7 @@ def generate_md(elements, db_path, img_path_list):
 
 
 if __name__ == "__main__":
-    topics = ["RAG", "CLIP", "LLM"]
+    topics = ["LLM"]
     db_path = "arxiv_articles.db"
     for topic in topics:
         data = get_urls_from_db(db_path, topic)
