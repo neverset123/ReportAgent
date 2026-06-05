@@ -50,20 +50,7 @@ jobs:
           python pipeline/generating.py 
       - name: Run npm export
         run: |
-          cd slides
-          mkdir -p ../frontend/pdf
-          for file in md/*.md; do
-            echo "Processing $file"
-            filename=$(basename -- "$file")
-            filename_without_extension="${filename%.*}"
-            npm run export "$file"
-            if [ -f "./$filename_without_extension-export.pdf" ]; then
-              mv "./$filename_without_extension-export.pdf" "../frontend/pdf/$filename_without_extension.pdf"
-            else
-              echo "File ./$filename_without_extension-export.pdf does not exist, skipping move."
-            fi
-          done
-          ls ../frontend/pdf
+          bash scripts/export_slides_pdfs.sh
       
       - name: save changes
         env:

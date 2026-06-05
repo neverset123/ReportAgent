@@ -14,6 +14,7 @@ The chatbot can be accessed only by priviledged user for security reason.
 ## Others
 1. integrate paper2poster
 https://github.com/Paper2Poster/Paper2Poster
+github.com/showlab/Paper2Video
 2. add frontend similar to https://www.alphaxiv.org/
 3. using finepdf for pdf data extraction: https://github.com/huggingface/finepdfs.git
 4. add RAG search[https://github.com/David-Lolly/TinyAISearch]
