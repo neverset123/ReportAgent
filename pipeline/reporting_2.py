@@ -13,17 +13,21 @@ from marker.output import text_from_rendered
 from pydantic import BaseModel
 
 from config import config, LLMConfig, LLMClient
+from pipeline.layout_templates import resolve_template, DEFAULT_LAYOUTS
 
 
 FRONTMATTER = """\
 ---
 theme: scholarly
+background: https://cover.sli.dev
 title: "{title}"
 info: |
   ## {title}
   {author} — {date}
 layout: cover
 class: text-center
+themeConfig:
+  color-theme: {color_theme}
 drawings:
   persist: false
 transition: slide-left
@@ -225,6 +229,42 @@ OUTPUT FORMAT: Respond with a valid JSON object containing exactly these keys:
 - "dataset": Dataset details (bullet points with dataset name **bolded**, include size/type/source)
 - "evaluation": Evaluation results (bullet points with metric names **bolded**, include numbers)
 - "conclusion": Conclusion (3-4 bullet points: findings, applications, limitations, future work)
+- "layout_hints": An object recommending the best slidev-theme-scholarly layout for each section based on the paper's semantic content. Keys and allowed values:
+  - "problem": "bullets" (list of issues) | "statement" (single bold claim) | "focus" (one key challenge with icon)
+  - "approach": "methodology" (step-by-step pipeline) | "two-cols" (text + visual) | "compare" (old vs new approach) | "image-right" (diagram-heavy)
+  - "model": "default" (numbered steps) | "methodology" (formal pipeline) | "timeline" (chronological stages)
+  - "dataset": "bullets" (simple list) | "two-cols" (stats + visual) | "compare" (multiple datasets side-by-side)
+  - "evaluation": "results" (quantitative table/metrics) | "compare" (baseline comparison) | "fact" (single headline metric) | "two-cols" (text + chart)
+  - "conclusion": "default" (bullet list) | "bullets" (enhanced bullets) | "statement" (impactful closing)
+- "color_theme": Choose ONE color theme that best matches the paper's domain/tone. Options:
+  - "classic-blue": general CS, systems, networking, default choice
+  - "oxford-burgundy": humanities-adjacent, social science, HCI, ethics
+  - "cambridge-green": biology, environmental science, sustainability, health
+  - "yale-blue": formal methods, mathematics, theoretical CS, logic
+  - "princeton-orange": creative AI, generative models, art/design, multimedia
+  - "nordic-blue": NLP, language models, linguistics, cognitive science
+  - "warm-sepia": historical analysis, surveys, literature reviews
+  - "monochrome": engineering, hardware, robotics, low-level systems
+  - "high-contrast": accessibility research, visualization, UI/UX
+
+LAYOUT SELECTION GUIDANCE:
+- Use "methodology" when the paper describes a clear step-by-step process or pipeline
+- Use "compare" when contrasting approaches, models, or showing baseline comparisons
+- Use "results" for sections with multiple quantitative metrics
+- Use "fact" when there is one standout finding or statistic
+- Use "timeline" for work with chronological stages or evolution
+- Use "statement"/"focus" for strong theoretical claims or contributions
+- Use "two-cols" when there is a natural split between text and visual content
+- Default to "bullets" when content is a straightforward list
+
+COLOR THEME GUIDANCE:
+- Match the color to the paper's research domain and tone
+- For ML/DL papers: "classic-blue" (general), "nordic-blue" (NLP/language), "princeton-orange" (generative/creative)
+- For theory-heavy: "yale-blue"
+- For applied/interdisciplinary: "oxford-burgundy" (social), "cambridge-green" (bio/health)
+- For systems/hardware: "monochrome"
+- For surveys/reviews: "warm-sepia"
+- Default to "classic-blue" if unsure
 
 FORMATTING RULES:
 - Each section should be 80-150 words
@@ -234,7 +274,9 @@ FORMATTING RULES:
 - Do NOT use headers inside sections (no # or ##)
 - Do NOT wrap the JSON in markdown code blocks
 - For "keywords": provide a JSON array of short strings (2-3 words each)
-- For "core_innovation": one sentence, no bullet points"""
+- For "core_innovation": one sentence, no bullet points
+- For "layout_hints": provide a JSON object with section names as keys
+- For "color_theme": provide a single string from the allowed color theme names"""
 
 USER_PROMPT_TEMPLATE = """\
 Summarize this paper into structured slide content.
@@ -296,11 +338,9 @@ def extract_image(elements):
 def assemble_slides(sections: dict, title: str, author: str, date: str, img_list: list[str]) -> str:
     """Assemble the final Slidev markdown from structured sections using scholarly theme.
 
-    Follows presentation criteria:
-    - Layout variety (no two consecutive same layouts)
-    - Varied transitions per slide
-    - Section dividers for narrative structure
-    - Scholarly components (Keywords, Block)
+    Uses LLM-provided layout_hints to dynamically select the best scholarly layout
+    for each section based on paper semantics. Falls back to fixed templates when
+    layout_hints are missing.
     """
     imgs = (img_list + ["", "", ""])[:3]  # Pad to 3
 
@@ -312,40 +352,71 @@ def assemble_slides(sections: dict, title: str, author: str, date: str, img_list
         keywords_str = '["research"]'
 
     core_innovation = sections.get("core_innovation", "Novel contribution to the field.")
+    layout_hints = sections.get("layout_hints", {})
+    if not isinstance(layout_hints, dict):
+        layout_hints = {}
+
+    color_theme = sections.get("color_theme", "classic-blue")
+    valid_themes = {
+        "classic-blue", "oxford-burgundy", "cambridge-green", "yale-blue",
+        "princeton-orange", "nordic-blue", "warm-sepia", "monochrome", "high-contrast",
+    }
+    if color_theme not in valid_themes:
+        color_theme = "classic-blue"
 
     parts = [
-        FRONTMATTER.format(title=title, author=author, date=date),
+        FRONTMATTER.format(title=title, author=author, date=date, color_theme=color_theme),
         SLIDE_COVER.format(title=title, author=author, date=date),
         SLIDE_SECTION_BACKGROUND,
-        SLIDE_PROBLEM.format(problem=sections.get("problem", ""), keywords=keywords_str),
-        SLIDE_SECTION_METHOD,
     ]
 
-    # Approach slide: use image-right if image available, two-cols with Block otherwise
-    if imgs[0]:
-        parts.append(SLIDE_APPROACH.format(approach=sections.get("approach", ""), img1=imgs[0]))
-    else:
-        parts.append(SLIDE_APPROACH_NO_IMG.format(
-            approach=sections.get("approach", ""),
-            core_innovation=core_innovation,
-        ))
+    # Problem slide — dynamic layout
+    problem_layout = layout_hints.get("problem", DEFAULT_LAYOUTS["problem"])
+    problem_tpl = resolve_template("problem", problem_layout, has_image=False)
+    parts.append(problem_tpl.format(
+        content=sections.get("problem", ""),
+        keywords=keywords_str,
+    ))
 
-    parts.append(SLIDE_MODEL.format(model=sections.get("model", "")))
+    parts.append(SLIDE_SECTION_METHOD)
+
+    # Approach slide — dynamic layout, image-aware
+    approach_layout = layout_hints.get("approach", DEFAULT_LAYOUTS["approach"])
+    approach_tpl = resolve_template("approach", approach_layout, has_image=bool(imgs[0]))
+    parts.append(approach_tpl.format(
+        content=sections.get("approach", ""),
+        core_innovation=core_innovation,
+        img=imgs[0],
+    ))
+
+    # Model slide — dynamic layout
+    model_layout = layout_hints.get("model", DEFAULT_LAYOUTS["model"])
+    model_tpl = resolve_template("model", model_layout, has_image=False)
+    parts.append(model_tpl.format(content=sections.get("model", "")))
+
     parts.append(SLIDE_SECTION_EXPERIMENTS)
 
-    # Dataset slide
-    if imgs[1]:
-        parts.append(SLIDE_DATASET.format(dataset=sections.get("dataset", ""), img2=imgs[1]))
-    else:
-        parts.append(SLIDE_DATASET_NO_IMG.format(dataset=sections.get("dataset", "")))
+    # Dataset slide — dynamic layout, image-aware
+    dataset_layout = layout_hints.get("dataset", DEFAULT_LAYOUTS["dataset"])
+    dataset_tpl = resolve_template("dataset", dataset_layout, has_image=bool(imgs[1]))
+    parts.append(dataset_tpl.format(
+        content=sections.get("dataset", ""),
+        img=imgs[1],
+    ))
 
-    # Evaluation slide
-    if imgs[2]:
-        parts.append(SLIDE_EVALUATION.format(evaluation=sections.get("evaluation", ""), img3=imgs[2]))
-    else:
-        parts.append(SLIDE_EVALUATION_NO_IMG.format(evaluation=sections.get("evaluation", "")))
+    # Evaluation slide — dynamic layout, image-aware
+    eval_layout = layout_hints.get("evaluation", DEFAULT_LAYOUTS["evaluation"])
+    eval_tpl = resolve_template("evaluation", eval_layout, has_image=bool(imgs[2]))
+    parts.append(eval_tpl.format(
+        content=sections.get("evaluation", ""),
+        img=imgs[2],
+    ))
 
-    parts.append(SLIDE_CONCLUSION.format(conclusion=sections.get("conclusion", "")))
+    # Conclusion slide — dynamic layout
+    conclusion_layout = layout_hints.get("conclusion", DEFAULT_LAYOUTS["conclusion"])
+    conclusion_tpl = resolve_template("conclusion", conclusion_layout, has_image=False)
+    parts.append(conclusion_tpl.format(content=sections.get("conclusion", "")))
+
     parts.append(SLIDE_END)
 
     return "\n".join(parts) + "\n"
@@ -448,7 +519,7 @@ def generate_md(elements, db_path, img_path_list):
 
 
 if __name__ == "__main__":
-    topics = ["LLM"]
+    topics = ["RAG", "CLIP","LLM"]
     db_path = "arxiv_articles.db"
     for topic in topics:
         data = get_urls_from_db(db_path, topic)
