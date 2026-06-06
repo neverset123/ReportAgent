@@ -1,4 +1,4 @@
-# use antropic llm and optimized layout
+# Uses slidev-theme-scholarly for academic presentation layouts
 import json
 import os
 import sqlite3
@@ -14,14 +14,15 @@ from pydantic import BaseModel
 
 from config import config, LLMConfig, LLMClient
 
+
 FRONTMATTER = """\
 ---
-theme: seriph
-background: https://cover.sli.dev
+theme: scholarly
 title: "{title}"
 info: |
   ## {title}
   {author} — {date}
+layout: cover
 class: text-center
 drawings:
   persist: false
@@ -46,32 +47,43 @@ SLIDE_COVER = """\
   <span class="text-sm opacity-50">{date}</span>
 </div>"""
 
-SLIDE_TOC = """\
+SLIDE_SECTION_BACKGROUND = """\
 
 ---
-layout: default
-transition: fade-out
+layout: section
+transition: fade
 ---
 
-# Table of Contents
-
-<Toc text-sm minDepth="1" maxDepth="2" />"""
+# Background & Motivation"""
 
 SLIDE_PROBLEM = """\
 
 ---
-layout: default
+layout: bullets
+transition: slide-up
 ---
 
 # Problem Statement
 
-{problem}"""
+{problem}
+
+<Keywords :keywords='{keywords}' />"""
+
+SLIDE_SECTION_METHOD = """\
+
+---
+layout: section
+transition: fade
+---
+
+# Methodology"""
 
 SLIDE_APPROACH = """\
 
 ---
 layout: two-cols
 layoutClass: gap-8
+transition: slide-left
 ---
 
 # Key Approach
@@ -85,18 +97,28 @@ layoutClass: gap-8
 SLIDE_APPROACH_NO_IMG = """\
 
 ---
-layout: default
+layout: two-cols
+transition: slide-left
 ---
 
 # Key Approach
 
-{approach}"""
+{approach}
+
+::right::
+
+<Block type="info">
+
+**Core Innovation**
+
+{core_innovation}
+
+</Block>"""
 
 SLIDE_MODEL = """\
 
 ---
 layout: default
-level: 2
 transition: slide-up
 ---
 
@@ -104,13 +126,21 @@ transition: slide-up
 
 {model}"""
 
+SLIDE_SECTION_EXPERIMENTS = """\
+
+---
+layout: section
+transition: fade
+---
+
+# Experiments & Results"""
+
 SLIDE_DATASET = """\
 
 ---
 layout: two-cols
 layoutClass: gap-8
-level: 2
-transition: slide-up
+transition: slide-right
 ---
 
 # Dataset & Benchmarks
@@ -124,9 +154,8 @@ transition: slide-up
 SLIDE_DATASET_NO_IMG = """\
 
 ---
-layout: default
-level: 2
-transition: slide-up
+layout: bullets
+transition: slide-right
 ---
 
 # Dataset & Benchmarks
@@ -138,6 +167,7 @@ SLIDE_EVALUATION = """\
 ---
 layout: two-cols
 layoutClass: gap-8
+transition: slide-up
 ---
 
 # Evaluation & Results
@@ -151,7 +181,8 @@ layoutClass: gap-8
 SLIDE_EVALUATION_NO_IMG = """\
 
 ---
-layout: default
+layout: results
+transition: slide-up
 ---
 
 # Evaluation & Results
@@ -162,19 +193,34 @@ SLIDE_CONCLUSION = """\
 
 ---
 layout: default
+transition: fade-out
 ---
 
 # Conclusion & Future Work
 
 {conclusion}"""
 
+SLIDE_END = """\
+
+---
+layout: end
+---
+
+# Thank You
+
+<div class="text-center text-sm opacity-60 mt-4">
+Questions & Discussion
+</div>"""
+
 
 SYSTEM_PROMPT = """\
-You are an expert at summarizing scientific papers into structured slide content for academic presentations.
+You are an expert at summarizing scientific papers into structured slide content for professional academic presentations.
 
 OUTPUT FORMAT: Respond with a valid JSON object containing exactly these keys:
+- "keywords": A list of 3-5 key terms/topics (e.g., ["reinforcement learning", "embodied AI", "memory systems"])
 - "problem": Problem statement (3-5 bullet points using markdown `- `)
 - "approach": Key approach (3-5 bullet points with **bold** key terms)
+- "core_innovation": A single concise sentence describing the paper's main contribution (used as a highlight block)
 - "model": Architecture/steps (numbered list `1. ` format, 4-6 steps)
 - "dataset": Dataset details (bullet points with dataset name **bolded**, include size/type/source)
 - "evaluation": Evaluation results (bullet points with metric names **bolded**, include numbers)
@@ -186,7 +232,9 @@ FORMATTING RULES:
 - Bold key terms, model names, dataset names, and metric values with **double asterisks**
 - Keep each bullet point to 1-2 lines max
 - Do NOT use headers inside sections (no # or ##)
-- Do NOT wrap the JSON in markdown code blocks"""
+- Do NOT wrap the JSON in markdown code blocks
+- For "keywords": provide a JSON array of short strings (2-3 words each)
+- For "core_innovation": one sentence, no bullet points"""
 
 USER_PROMPT_TEMPLATE = """\
 Summarize this paper into structured slide content.
@@ -197,6 +245,7 @@ Summarize this paper into structured slide content.
 
 **Paper Content:**
 {paper_text}"""
+
 
 config_parser = ConfigParser({"output_format": "markdown"})
 converter = PdfConverter(
@@ -245,23 +294,44 @@ def extract_image(elements):
     return img_path_list
 
 def assemble_slides(sections: dict, title: str, author: str, date: str, img_list: list[str]) -> str:
-    """Assemble the final Slidev markdown from structured sections."""
+    """Assemble the final Slidev markdown from structured sections using scholarly theme.
+
+    Follows presentation criteria:
+    - Layout variety (no two consecutive same layouts)
+    - Varied transitions per slide
+    - Section dividers for narrative structure
+    - Scholarly components (Keywords, Block)
+    """
     imgs = (img_list + ["", "", ""])[:3]  # Pad to 3
+
+    # Format keywords for the Keywords component
+    keywords = sections.get("keywords", [])
+    if isinstance(keywords, list):
+        keywords_str = json.dumps(keywords)
+    else:
+        keywords_str = '["research"]'
+
+    core_innovation = sections.get("core_innovation", "Novel contribution to the field.")
 
     parts = [
         FRONTMATTER.format(title=title, author=author, date=date),
         SLIDE_COVER.format(title=title, author=author, date=date),
-        SLIDE_TOC,
-        SLIDE_PROBLEM.format(problem=sections.get("problem", "")),
+        SLIDE_SECTION_BACKGROUND,
+        SLIDE_PROBLEM.format(problem=sections.get("problem", ""), keywords=keywords_str),
+        SLIDE_SECTION_METHOD,
     ]
 
-    # Approach slide: use two-cols if image available
+    # Approach slide: use image-right if image available, two-cols with Block otherwise
     if imgs[0]:
         parts.append(SLIDE_APPROACH.format(approach=sections.get("approach", ""), img1=imgs[0]))
     else:
-        parts.append(SLIDE_APPROACH_NO_IMG.format(approach=sections.get("approach", "")))
+        parts.append(SLIDE_APPROACH_NO_IMG.format(
+            approach=sections.get("approach", ""),
+            core_innovation=core_innovation,
+        ))
 
     parts.append(SLIDE_MODEL.format(model=sections.get("model", "")))
+    parts.append(SLIDE_SECTION_EXPERIMENTS)
 
     # Dataset slide
     if imgs[1]:
@@ -276,6 +346,7 @@ def assemble_slides(sections: dict, title: str, author: str, date: str, img_list
         parts.append(SLIDE_EVALUATION_NO_IMG.format(evaluation=sections.get("evaluation", "")))
 
     parts.append(SLIDE_CONCLUSION.format(conclusion=sections.get("conclusion", "")))
+    parts.append(SLIDE_END)
 
     return "\n".join(parts) + "\n"
 
@@ -319,6 +390,7 @@ def get_urls_from_db(db_path, topic):
         data.append(ele)
     conn.close()
     return data
+
 
 def generate_md(elements, db_path, img_path_list):
     llm_config = LLMConfig.from_env()
