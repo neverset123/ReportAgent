@@ -46,11 +46,9 @@ jobs:
         run: |
           python pipeline/scraping.py
           python pipeline/tagging.py
-          python pipeline/reporting.py
-          python pipeline/generating.py 
-      - name: Run npm export
-        run: |
+          python pipeline/reporting_1.py
           bash scripts/export_slides_pdfs.sh
+          python pipeline/generating.py
       
       - name: save changes
         env:
