@@ -24,3 +24,5 @@ github.com/showlab/Paper2Video
 8. experiment paper idea with autoresearch:https://github.com/karpathy/autoresearch?tab=readme-ov-file
 9. model based ppt gen: https://github.com/icip-cas/PPTAgent
 10. https://github.com/run-llama/liteparse
+11. https://github.com/Ar9av/PaperOrchestra
+12. 
