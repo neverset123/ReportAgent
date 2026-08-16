@@ -26,4 +26,5 @@ github.com/showlab/Paper2Video
 10. https://github.com/run-llama/liteparse
 11. https://github.com/Ar9av/PaperOrchestra
 12. https://github.com/dozybot001/MAARS
-13. 
+13. https://github.com/zengwenliang416/ppt-agent
+14. 
