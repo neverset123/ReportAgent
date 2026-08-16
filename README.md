@@ -25,4 +25,5 @@ github.com/showlab/Paper2Video
 9. model based ppt gen: https://github.com/icip-cas/PPTAgent
 10. https://github.com/run-llama/liteparse
 11. https://github.com/Ar9av/PaperOrchestra
-12. 
+12. https://github.com/dozybot001/MAARS
+13. 
